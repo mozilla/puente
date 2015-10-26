@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 
 __author__ = 'Will Kahn-Greene'
 __email__ = 'willkg@mozilla.com'

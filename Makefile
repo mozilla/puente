@@ -27,26 +27,19 @@ lint:
 	flake8 puente tests
 
 test:
-	python setup.py test
+	pytest
 
 test-all:
 	tox
 
-coverage:
-	coverage run --source puente setup.py test
-	coverage report -m
-	coverage html
-	open htmlcov/index.html
-
 docs:
-	rm -f docs/puente.rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ puente
+	rm -f docs/*puente.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
 
 release: clean
+	# FIXME: finish this
 	python setup.py sdist upload
 
 sdist: clean

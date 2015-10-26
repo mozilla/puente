@@ -34,6 +34,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
+        'translate-toolkit',
+        'babel',
+        'jinja2',
+        'django>=1.8'
     ],
     license="BSD",
     zip_safe=True,

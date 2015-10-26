@@ -1,6 +1,10 @@
 # These are test/development requirements.
 .
 
-nose
+# for tests
+pytest
+pytest-django
 mock
+
+# to build docs
 Sphinx

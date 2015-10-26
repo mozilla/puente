@@ -1,0 +1,6 @@
+# These are test/development requirements.
+.
+
+nose
+mock
+Sphinx

@@ -27,7 +27,7 @@ lint:
 	flake8 puente tests
 
 test:
-	pytest
+	py.test
 
 test-all:
 	tox

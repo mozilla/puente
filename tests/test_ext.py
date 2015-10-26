@@ -41,7 +41,7 @@ def build_environment(template):
         autoescape=True,
         loader=DictLoader({'tmpl.html': template}),
         extensions=[
-            'puenteext.PuenteI18nExtension'
+            'puente.ext.PuenteI18nExtension'
         ]
     )
     env.install_gettext_callables(gettext, ngettext, newstyle=True)

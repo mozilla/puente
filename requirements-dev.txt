@@ -1,8 +1,12 @@
 # These are test/development requirements.
 .
 
+# this isn't actually a requirement for puente, but we use it for the tests
+django-jinja
+
 # for tests
 pytest
+pytest-pythonpath
 pytest-django
 mock
 

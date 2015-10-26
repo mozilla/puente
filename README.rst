@@ -36,7 +36,7 @@ Run::
 
     $ git clone https://github.com/willkg/puente
     # Create a virtualenvironment
-    $ pip install -e .
+    $ pip install -r requirements-dev.txt
 
 
 Use

@@ -2,8 +2,8 @@ import os
 import tempfile
 from subprocess import Popen
 
-from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 
 from babel.messages.extract import extract_from_dir
 from translate.storage import po
@@ -47,7 +47,7 @@ def generate_options_map():
                 except KeyError:
                     pass
             return {'**.*': config}
-    raise Exception('No valid jinja2 config found in settings.')
+    raise CommandError('No valid jinja2 config found in settings.')
 
 
 def create_pounit(filename, lineno, msgid, comments, context):
@@ -188,11 +188,9 @@ class Command(BaseCommand):
 
         if not os.path.isdir(outputdir):
             if not options.get('create'):
-                print ('Output directory must exist (%s) unless -c option is '
-                       'given. Specify one with --output-dir' % outputdir)
-                # FIXME: This should return a non-zero exit code and
-                # print to stderr however that works in Django.
-                return 'FAILURE\n'
+                raise CommandError(
+                    'Output directory must exist (%s) unless -c option is '
+                    'given. Specify one with --output-dir' % outputdir)
 
             os.makedirs(outputdir)
 
@@ -219,9 +217,8 @@ class Command(BaseCommand):
             )
             catalog = create_pofile_from_babel(extracted)
             if not os.path.exists(outputdir):
-                # FIXME: This should return a non-zero exit code and
-                # print to stderr and be consistent
-                raise Exception('Expected %s to exist... BAILING' % outputdir)
+                raise CommandError(
+                    'Expected %s to exist... BAILING' % outputdir)
 
             catalog.savefile(os.path.join(outputdir, '%s.pot' % domain))
 

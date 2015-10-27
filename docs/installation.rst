@@ -16,7 +16,8 @@ Configure
 =========
 
 Puente configuration goes in the ``PUENTE`` setting in your Django settings
-file. Here's a minimal example::
+file. Here's a minimal example that uses ``BASE_DIR`` which is the path to the
+project root::
 
    PUENTE = {
        'ROOT': BASE_DIR,
@@ -97,10 +98,20 @@ in ``django.po(t)`` files.
    :default: Common gettext indicators
    :required: No
 
-
    The list of keywords for functions that are gettext-related. This defaults to
-   the list Babel has plus ``_lazy``. If you find it doesn't include all the
-   keywords you want, then you can override this.
+   the list Babel has plus ``_lazy``. At the time of this writing, that's:
+
+   .. code-block:: python
+
+      [
+          'N_', '_', '_lazy', 'dgettext', 'dngettext',
+          'gettext', 'ngettext', 'pgettext', 'ugettext',
+          'ungettext'
+      ]
+
+
+   If you find it doesn't include all the keywords you want, then set this
+   variable to a different value.
 
    There's a ``puente.utils.generate_keywords`` function to make it easier to
    get all the defaults plus the ones you want:

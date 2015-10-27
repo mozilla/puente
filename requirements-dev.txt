@@ -9,6 +9,7 @@ pytest
 pytest-pythonpath
 pytest-django
 mock
+tox
 
 # to build docs
 Sphinx

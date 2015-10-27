@@ -36,7 +36,6 @@ docs:
 	rm -f docs/*puente.rst
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
-	open docs/_build/html/index.html
 
 release: clean
 	# FIXME: finish this

@@ -40,7 +40,7 @@ is open to whoever wants to implement it.
 Write Documentation
 -------------------
 
- could always use more documentation, whether as part of the 
+Puente could always use more documentation, whether as part of the 
 official  docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
@@ -57,6 +57,7 @@ If you are proposing a feature:
   implement.
 * Remember that this is a volunteer-driven project, and that contributions
   are welcome :)
+
 
 Get Started!
 ------------

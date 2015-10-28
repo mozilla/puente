@@ -45,6 +45,18 @@ def generate_options_map():
                 }
             }
 
+    # If this is Django 1.7 and Jingo, try to grab extensions from
+    # JINJA_CONFIG.
+    if getattr(settings, 'JINJA_CONFIG'):
+        jinja_config = settings.JINJA_CONFIG
+        if callable(jinja_config):
+            jinja_config = jinja_config()
+        return {
+            '**.*': {
+                'extensions': ','.join(jinja_config['extensions'])
+            }
+        }
+
     raise CommandError(
         'No valid jinja2 config found in settings. See configuration '
         'documentation.'

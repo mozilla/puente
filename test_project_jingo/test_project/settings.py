@@ -44,25 +44,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 def JINJA_CONFIG():
-    import jinja2
-    from django.conf import settings
-    from django.core.cache.backends.memcached import MemcachedCache
-    from django.core.cache import caches
-    cache = caches['memcache']
-    config = {'extensions': ['jinja2.ext.i18n', 'tower.template.i18n',
-                             'jinja2.ext.with_', 'jinja2.ext.loopcontrols',
-                             'jinja2.ext.autoescape',
-                             'pipeline.templatetags.ext.PipelineExtension'],
-              'finalize': lambda x: x if x is not None else ''}
-    if isinstance(cache, MemcachedCache) and not settings.DEBUG:
-        # We're passing the _cache object directly to jinja because
-        # Django can't store binary directly; it enforces unicode on it.
-        # Details: http://jinja.pocoo.org/2/documentation/api#bytecode-cache
-        # and in the errors you get when you try it the other way.
-        bc = jinja2.MemcachedBytecodeCache(cache._cache,
-                                           "%s:j2:" % settings.CACHE_PREFIX)
-        config['cache_size'] = -1  # Never clear the cache
-        config['bytecode_cache'] = bc
+    config = {
+        'extensions': [
+            'jinja2.ext.i18n',
+            'jinja2.ext.with_',
+            'jinja2.ext.loopcontrols',
+            'jinja2.ext.autoescape',
+            'puente.ext.PuenteI18nExtension',
+        ],
+        'finalize': lambda x: x if x is not None else ''
+    }
+
     return config
 
 

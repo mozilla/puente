@@ -52,7 +52,9 @@ using django-jinja, then it might look like this:
 
 
 Puente configuration goes in the ``PUENTE`` setting in your Django settings
-file. Here's a minimal example::
+file. Here's a minimal example:
+
+.. code-block:: python
 
    PUENTE = {
        'BASE_DIR': BASE_DIR,

@@ -37,7 +37,7 @@ def generate_options_map():
         except KeyError:
             continue
 
-        if backend == 'django_jinja.backend.jinja2':
+        if backend == 'django_jinja.backend.Jinja2':
             config = {}
             for key in ('newstyle_gettext',
                         'autoescape',

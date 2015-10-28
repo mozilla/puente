@@ -1,5 +1,7 @@
-from django.core.management.base import BaseCommand
+from optparse import make_option
+
 from django.conf import settings
+from django.core.management.base import BaseCommand
 
 from puente.commands import merge_command
 from puente.settings import get_setting
@@ -24,12 +26,13 @@ class Command(BaseCommand):
     compendium will be used by gettext for fuzzy matching.
 
     """
-    def add_argument(self, parser):
-        parser.add_argument(
+    option_list = BaseCommand.option_list + (
+        make_option(
             '-c', '--create',
             action='store_true', dest='create', default=False,
             help='Create locale subdirectories'
-        )
+        ),
+    )
 
     def handle(self, *args, **options):
         return merge_command(

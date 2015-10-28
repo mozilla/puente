@@ -30,6 +30,25 @@ to do something like the following to switch to Puente.
    * If you have a bunch of domains and can't squash them into ``django.po(t)``
      and ``javascript.po(t)``, then we should talk--open up an issue.
 
+5. Stop using Tower's gettext.
+
+   Switch instances of this:
+
+   .. code-block:: python
+
+      from tower import ugettext as _
+
+
+   to this:
+
+   .. code-block:: python
+
+      from django.utils.translation import ugettext as _
+
+
+   At the end of this step, you do not want to be using Tower's gettext
+   stuff at all.
+
 5. Sync your strings
 
    Using Tower, extract, merge and sync strings with Verbatim. That way you

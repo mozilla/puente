@@ -21,8 +21,8 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--output-dir', '-o',
-            default=os.path.join(get_setting('BASE_DIR'), 'locale', 'templates',
-                                 'LC_MESSAGES'),
+            default=os.path.join(get_setting('BASE_DIR'), 'locale',
+                                 'templates', 'LC_MESSAGES'),
             dest='outputdir',
             help=(
                 'The directory where extracted files will be placed. '
@@ -38,7 +38,8 @@ class Command(BaseCommand):
             # From settings.py
             domain_methods=get_setting('DOMAIN_METHODS'),
             standalone_domains=get_setting('STANDALONE_DOMAINS'),
+            text_domain=get_setting('TEXT_DOMAIN'),
             keywords=get_setting('KEYWORDS'),
             comment_tags=get_setting('COMMENT_TAGS'),
-            basedir=get_setting('BASEDIR')
+            base_dir=get_setting('BASE_DIR')
         )

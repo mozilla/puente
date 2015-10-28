@@ -50,9 +50,10 @@ class TestExtractCommand:
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
+            text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            basedir=str(tmpdir)
+            base_dir=str(tmpdir)
         )
 
         # Verify contents
@@ -102,9 +103,10 @@ class TestExtractCommand:
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
+            text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            basedir=str(tmpdir)
+            base_dir=str(tmpdir)
         )
 
         # Verify contents
@@ -147,9 +149,10 @@ class TestExtractCommand:
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
+            text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            basedir=str(tmpdir)
+            base_dir=str(tmpdir)
         )
 
         # Verify contents
@@ -194,9 +197,10 @@ class TestExtractCommand:
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
+            text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            basedir=str(tmpdir)
+            base_dir=str(tmpdir)
         )
 
         # Verify contents

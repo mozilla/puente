@@ -9,9 +9,6 @@ from django.core.management.base import CommandError
 from babel.messages.extract import extract_from_dir
 from translate.storage import po
 
-from puente.settings import get_setting
-
-
 DEFAULT_DOMAIN_VALUE = 'all'
 
 
@@ -150,7 +147,7 @@ def monkeypatch_i18n():
 
 
 def extract_command(domain, outputdir, domain_methods, standalone_domains,
-                    keywords, comment_tags, basedir):
+                    text_domain, keywords, comment_tags, base_dir):
     """Extracts strings into .pot files
 
     :arg domain: domains to generate strings for or 'all' for all domains
@@ -158,9 +155,10 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
         locale/templates/LC_MESSAGES/
     :arg domain_methods: DOMAIN_METHODS setting
     :arg standalone_domains: STANDALONE_DOMAINS setting
+    :arg text_domain: TEXT_DOMAIN settings
     :arg keywords: KEYWORDS setting
     :arg comment_tags: COMMENT_TAGS setting
-    :arg basedir: BASEDIR setting
+    :arg base_dir: BASE_DIR setting
 
     """
     # Must monkeypatch first to fix InternationalizationExtension
@@ -189,7 +187,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
 
         methods = domain_methods[domain]
         extracted = extract_from_dir(
-            basedir,
+            base_dir,
             method_map=methods,
             keywords=keywords,
             comment_tags=comment_tags,
@@ -209,7 +207,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
         pot_files.append(os.path.join(outputdir, '%s.pot' % dom))
 
     if len(pot_files) > 1:
-        pot_file = get_setting('TEXT_DOMAIN') + '.pot'
+        pot_file = text_domain + '.pot'
         print ('Concatenating the non-standalone domains into %s' %
                pot_file)
 

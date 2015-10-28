@@ -1,5 +1,4 @@
 import os
-import sys
 import tempfile
 from subprocess import Popen, call, PIPE
 from tempfile import TemporaryFile
@@ -61,7 +60,10 @@ def generate_options_map():
 
 def create_pounit(filename, lineno, msgid, comments, context):
     unit = po.pounit(encoding='UTF-8')
-    unit.setsource(msgid)
+    if isinstance(msgid, tuple):
+        unit.setsource(list(msgid))
+    else:
+        unit.setsource(msgid)
     if context:
         unit.msgctxt = ['"%s"' % context]
     for comment in comments:
@@ -246,6 +248,13 @@ def merge_command(create, base_dir, standalone_domains, languages):
     """
     locale_dir = os.path.join(base_dir, 'locale')
 
+    # Verify existence of msginit and msgmerge
+    if not call(['which', 'msginit'], stdout=PIPE) == 0:
+        raise CommandError('You do not have gettext installed.')
+
+    if not call(['which', 'msgmerge'], stdout=PIPE) == 0:
+        raise CommandError('You do not have gettext installed.')
+
     if create:
         for lang in languages:
             d = os.path.join(locale_dir, lang.replace('-', '_'),
@@ -274,9 +283,6 @@ def merge_command(create, base_dir, standalone_domains, languages):
 
             if not os.path.isfile(domain_po):
                 print ' Can not find (%s).  Creating...' % (domain_po)
-                if not call(['which', 'msginit'], stdout=PIPE) == 0:
-                    raise CommandError('You do not have gettext installed.')
-
                 p1 = Popen([
                     'msginit',
                     '--no-translator',

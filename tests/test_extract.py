@@ -168,3 +168,56 @@ class TestExtractCommand:
             msgstr ""
             """)
         )
+
+    def test_plurals(self, tmpdir):
+        # Test ngettext
+        tmpdir.join('foo.py').write(dedent("""\
+        ngettext('%(num)s thing', '%(num)s things', num)
+        """))
+        tmpdir.join('foo.html').write(dedent("""\
+        {{ ngettext('html %(num)s thing', 'html %(num)s things', num) }}
+        {% trans num=num %}
+            There is {{ num }} thing.
+        {% pluralize %}
+            There are {{ num }} things.
+        {% endtrans %}
+        """))
+
+        # Extract
+        extract_command(
+            domain='all',
+            outputdir=str(tmpdir),
+            domain_methods={
+                'django': [
+                    ('*.py', 'puente.extract.extract_python'),
+                    ('*.html', 'puente.extract.extract_jinja2')
+                ]
+            },
+            standalone_domains=puente_settings.STANDALONE_DOMAINS,
+            keywords=puente_settings.KEYWORDS,
+            comment_tags=puente_settings.COMMENT_TAGS,
+            basedir=str(tmpdir)
+        )
+
+        # Verify contents
+        assert os.path.exists(str(tmpdir.join('django.pot')))
+        pot_file = nix_header(tmpdir.join('django.pot').read())
+        assert (
+            pot_file ==
+            dedent("""\
+            #: foo.html:1
+            msgid "html %(num)s thing"
+            msgid_plural "html %(num)s things"
+            msgstr ""
+
+            #: foo.html:2
+            msgid "There is %(num)s thing."
+            msgid_plural "There are %(num)s things."
+            msgstr ""
+
+            #: foo.py:1
+            msgid "%(num)s thing"
+            msgid_plural "%(num)s things"
+            msgstr ""
+            """)
+        )

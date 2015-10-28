@@ -21,8 +21,8 @@ COMMENT_TAGS = ['L10n:', 'L10N:', 'l10n:', 'l10N:']
 # Map of domain to list of (match, extractor)
 DOMAIN_METHODS = None
 
-# The root directory of this project to extract strings from
-ROOT = None
+# The basedir of this project to extract strings from
+BASE_DIR = None
 
 # If you set this, we'll use it. Otherwise we assume you're using
 # django-jinja and we'll pick up the first template setting

@@ -90,7 +90,7 @@ USE_L10N = True
 USE_TZ = True
 
 PUENTE = {
-    'ROOT': BASE_DIR,
+    'BASE_DIR': BASE_DIR,
     'DOMAIN_METHODS': {
         'django': [
             ('jinja2/*.html', 'puente.extract.extract_jinja2'),

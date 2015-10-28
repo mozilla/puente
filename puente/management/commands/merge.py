@@ -36,10 +36,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        ROOT = get_setting('ROOT')
+        BASE_DIR = get_setting('BASE_DIR')
         STANDALONE_DOMAINS = get_setting('STANDALONE_DOMAINS')
 
-        locale_dir = os.path.join(ROOT, 'locale')
+        locale_dir = os.path.join(BASE_DIR, 'locale')
 
         if options.get('create'):
             for lang in getattr(settings, 'LANGUAGES', []):

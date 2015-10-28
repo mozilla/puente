@@ -17,6 +17,40 @@ FIXME: This is a lie until we get it into PyPI.
 Configure
 =========
 
+In ``settings.py`` add Puente to ``INSTALLED_APPS``:
+
+.. code-block:: python
+
+   INSTALLED_APPS = [
+       # ...
+       'puente',
+       # ...
+   ]
+
+
+In ``settings.py`` add ``puente.ext.PuenteI18nExtension`` as an extension
+in your Jinja2 template environment configuration. For example, if you were
+using django-jinja, then it might look like this:
+
+.. code-block:: python
+
+   TEMPLATES = [
+       {
+           'BACKEND': 'django_jinja.backend.Jinja2',
+           # ...
+           'OPTIONS': {
+                # ...
+                'extensions': [
+                    # ...
+                    'puente.ext.PuenteI18nExtension',
+                    # ...
+            ],
+            # ...
+       }
+       # ...
+   ]
+
+
 Puente configuration goes in the ``PUENTE`` setting in your Django settings
 file. Here's a minimal example::
 

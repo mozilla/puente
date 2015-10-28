@@ -1,11 +1,7 @@
-import os
-import sys
-from subprocess import Popen, call, PIPE
-from tempfile import TemporaryFile
-
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
+from puente.commands import merge_command
 from puente.settings import get_setting
 
 
@@ -36,81 +32,12 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        BASE_DIR = get_setting('BASE_DIR')
-        STANDALONE_DOMAINS = get_setting('STANDALONE_DOMAINS')
+        return merge_command(
+            create=options.get('create'),
+            base_dir=get_setting('BASE_DIR'),
+            standalone_domains=get_setting('STANDALONE_DOMAINS'),
+            languages=getattr(settings, 'LANGUAGES', [])
+        )
 
-        locale_dir = os.path.join(BASE_DIR, 'locale')
-
-        if options.get('create'):
-            for lang in getattr(settings, 'LANGUAGES', []):
-                d = os.path.join(locale_dir, lang.replace('-', '_'),
-                                 'LC_MESSAGES')
-                if not os.path.exists(d):
-                    os.makedirs(d)
-
-        for domain in STANDALONE_DOMAINS:
-            print 'Merging %s strings to each locale...' % domain
-            domain_pot = os.path.join(locale_dir, 'templates', 'LC_MESSAGES',
-                                      '%s.pot' % domain)
-            if not os.path.isfile(domain_pot):
-                sys.exit('Can not find %s.pot' % domain)
-
-            for locale in os.listdir(locale_dir):
-                if ((not os.path.isdir(os.path.join(locale_dir, locale)) or
-                     locale.startswith('.') or
-                     locale == 'templates' or
-                     locale == 'compendia')):
-                    continue
-
-                compendium = os.path.join(locale_dir, 'compendia',
-                                          '%s.compendium' % locale)
-                domain_po = os.path.join(locale_dir, locale, 'LC_MESSAGES',
-                                         '%s.po' % domain)
-
-                if not os.path.isfile(domain_po):
-                    print ' Can not find (%s).  Creating...' % (domain_po)
-                    if not call(['which', 'msginit'], stdout=PIPE) == 0:
-                        raise Exception('You do not have gettext installed.')
-
-                    p1 = Popen([
-                        'msginit',
-                        '--no-translator',
-                        '--locale=%s' % locale,
-                        '--input=%s' % domain_pot,
-                        '--output-file=%s' % domain_po,
-                        '--width=200'
-                    ])
-                    p1.communicate()
-
-                print 'Merging %s.po for %s' % (domain, locale)
-
-                domain_pot_file = open(domain_pot)
-
-                if locale == 'en_US':
-                    enmerged = TemporaryFile('w+t')
-                    p2 = Popen(['msgen', '-'], stdin=domain_pot_file,
-                               stdout=enmerged)
-                    p2.communicate()
-                    mergeme = enmerged
-                else:
-                    mergeme = domain_pot_file
-
-                mergeme.seek(0)
-                command = [
-                    'msgmerge',
-                    '--update',
-                    '--width=200',
-                    domain_po,
-                    '-'
-                ]
-                if os.path.isfile(compendium):
-                    print '(using a compendium)'
-                    command.insert(1, '--compendium=%s' % compendium)
-                p3 = Popen(command, stdin=mergeme)
-                p3.communicate()
-                mergeme.close()
-            print 'Domain %s finished' % domain
-
-        print 'All finished'
 
 Command.help = Command.__doc__

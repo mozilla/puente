@@ -11,16 +11,17 @@ Activate your virtual environment, then do:
 
   $ pip install puente
 
+FIXME: This is a lie until we get it into PyPI.
+
 
 Configure
 =========
 
 Puente configuration goes in the ``PUENTE`` setting in your Django settings
-file. Here's a minimal example that uses ``BASE_DIR`` which is the path to the
-project root::
+file. Here's a minimal example::
 
    PUENTE = {
-       'ROOT': BASE_DIR,
+       'BASE_DIR': BASE_DIR,
        'DOMAIN_METHODS': {
            'django': [
                ('jinja2/*.html', 'puente.extract.extract_jinja2'),
@@ -29,13 +30,15 @@ project root::
        }
    }
 
-
 This sets up string extraction for ``jinja2/*.html`` files using the Jinja2
 extractor, ``*.py`` files using the Python extractor and puts all those strings
 in ``django.po(t)`` files.
 
+Note that ``BASE_DIR`` is the path to the project root. It's in the
+``settings.py`` file that is generated when you create a new Django project.
 
-.. py:data:: ROOT
+
+.. py:data:: BASE_DIR
 
    :type: String
    :default: None
@@ -43,11 +46,13 @@ in ``django.po(t)`` files.
 
 
    This is the absolute path to the root directory which has ``locale/`` in it.
+   In most cases, it's probably fine to set it to ``BASE_DIR`` which is in the
+   ``settings.py`` file that Django generates when you create a new project.
 
    For example::
 
        /home/willkg/
-          - fjord/         <-- ROOT
+          - fjord/         <-- BASE_DIR
             - .git/
             - locale/
             - fjord/
@@ -91,27 +96,23 @@ in ``django.po(t)`` files.
           }
       }
 
+   This should have ``django`` and ``javascript`` keys only.
+
 
 .. py:data:: KEYWORDS
 
-   :type: List of strings
+   :type: Dict of keyword to Babel magic
    :default: Common gettext indicators
    :required: No
 
-   The list of keywords for functions that are gettext-related. This defaults to
-   the list Babel has plus ``_lazy``. At the time of this writing, that's:
+   Babel has keywords:
 
-   .. code-block:: python
+   https://github.com/python-babel/babel/blob/5116c167/babel/messages/extract.py#L31
 
-      [
-          'N_', '_', '_lazy', 'dgettext', 'dngettext',
-          'gettext', 'ngettext', 'pgettext', 'ugettext',
-          'ungettext'
-      ]
+   Puente adds ``'_lazy': None`` to that.
 
-
-   If you find it doesn't include all the keywords you want, then set this
-   variable to a different value.
+   Babel uses the keywords to know what strings to extract and how to extract
+   them.
 
    There's a ``puente.utils.generate_keywords`` function to make it easier to
    get all the defaults plus the ones you want:
@@ -121,7 +122,7 @@ in ``django.po(t)`` files.
       from puente.utils import generate_keywords
 
       PUENTE = {
-          'KEYWORDS': generate_keywords(['my', 'special', 'keywords']),
+          'KEYWORDS': generate_keywords({'foo': None})
       }
 
 

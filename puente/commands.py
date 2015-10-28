@@ -38,16 +38,12 @@ def generate_options_map():
             continue
 
         if backend == 'django_jinja.backend.Jinja2':
-            config = {}
-            for key in ('newstyle_gettext',
-                        'autoescape',
-                        'undefined',
-                        'extensions'):
-                try:
-                    config[key] = tmpl_config[key]
-                except KeyError:
-                    pass
-            return {'**.*': config}
+            extensions = tmpl_config.get('OPTIONS', {}).get('extensions', [])
+            return {
+                '**.*': {
+                    'extensions': ','.join(extensions)
+                }
+            }
 
     raise CommandError(
         'No valid jinja2 config found in settings. See configuration '

@@ -32,10 +32,9 @@ to do something like the following to switch to Puente.
 
 5. Switch from Tower to Puente.
 
-   Puente works with Django 1.7 and Jingo 0.7.1. It also works with Django 1.8
-   and django-jinja.
-
-   FIXME: Need to make sure Puente works with Django 1.7 first.
+   Puente works with Django 1.7 and Jingo 0.7.1. It also works with Django 1.8+
+   and django-jinja. It probably works with other Django Jinja2 template
+   environments. If not, let us know.
 
    1. Remove Tower
 

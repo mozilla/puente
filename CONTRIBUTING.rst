@@ -7,6 +7,7 @@ little bit helps, and credit will always be given.
 
 You can contribute in many ways:
 
+
 Types of Contributions
 ======================
 
@@ -76,7 +77,7 @@ local development.
 
     $ mkvirtualenv puente
     $ cd puente/
-    $ python setup.py develop
+    $ pip install -r requirements-dev.txt
 
 4. Create a branch for local development::
 
@@ -112,15 +113,20 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 2.6, 2.7, and 3.3, and for
-   PyPy. Check 
+3. The pull request should work for Python 2.7 and 3.3. Check 
    https://travis-ci.org/willkg/puente/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 
-Tips
-====
+Tests
+=====
 
-To run a subset of tests::
+We use py.test and tox for tests.
 
-	$ python -m unittest tests.test_puente
+To run tests::
+
+	$ py.test
+
+To run tests in all environments::
+
+  $ tox

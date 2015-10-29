@@ -13,6 +13,13 @@ Activate your virtual environment, then do:
 
 FIXME: This is a lie until we get it into PyPI.
 
+**Optional:** If you want to extract strings from Django templates, you will
+also need to install django-babel which has an extractor for Django templates:
+
+.. code-block:: bash
+
+   $ pip install django-babel
+
 
 Configure
 =========
@@ -60,15 +67,23 @@ file. Here's a minimal example:
        'BASE_DIR': BASE_DIR,
        'DOMAIN_METHODS': {
            'django': [
-               ('jinja2/*.html', 'jinja2'),
-               ('*.py', 'python'),
+               ('**.py', 'python'),
+               ('fjord/**/jinja2/**.html', 'jinja2'),
+               ('fjord/**/templates/**.html', 'django'),
+           ],
+           'djangojs': [
+               ('**.js', 'javascript'),
            ]
        }
    }
 
-This sets up string extraction for ``jinja2/*.html`` files using the Jinja2
-extractor, ``*.py`` files using the Python extractor and puts all those strings
-in ``django.po(t)`` files.
+
+This sets up string extraction for Jinja2 templates using the Jinja2 extractor,
+Python files using the Python extractor, and Django templates using the Django
+extractor [#]_ and puts all those strings in ``django.pot`` files.
+
+.. [#] You need to install django-babel for the Django extractor for it to be
+   available.
 
 Note that ``BASE_DIR`` is the path to the project root. It's in the
 ``settings.py`` file that is generated when you create a new Django project.
@@ -117,22 +132,27 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
 
    * ``python`` for Python files (Babel)
    * ``javascript`` for Javascript files (Babel)
-   * ``jinja2`` for Jinja2 templates (Jinja2) [#]_
    * ``ignore`` for files to ignore to alleviate difficulties in file matching
      (Babel)
+   * ``jinja2`` for Jinja2 templates (Jinja2)
+   * ``django`` for django templates (django-babel) [#]_
 
-   You can use extractors provided by other libraries, too. You can also use a
-   dotted path to the extraction function.
+   .. [#] You need to install django-babel for the Django extractor for it to be
+      available.
 
-   For example:
+   You can use extractors provided by other libraries, too. You can also write
+   your own extractors and use a dotted path to the extraction function.
+
+   Example of ``DOMAIN_METHODS``:
 
    .. code-block:: python
 
       PUENTE = {
           'DOMAIN_METHODS': {
               'django': [
-                  ('jinja2/*.html', 'jinja2'),
-                  ('*.py', 'python')
+                  ('fjord/**/jinja2/**.html', 'jinja2'),
+                  ('**.py', 'python')
+                  ('fjord/**/templates/**.html', 'django'),
               ],
               'djangojs': [
                   ('**.js', 'javascript'),

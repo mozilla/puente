@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u''
-copyright = u'2015, Will Kahn-Greene'
+copyright = u'2015, Mozilla Foundation'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

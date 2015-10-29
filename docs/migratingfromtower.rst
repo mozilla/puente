@@ -31,7 +31,12 @@ to do something like the following to switch to Puente.
    * If you have a bunch of domains and can't squash them into ``django.po(t)``
      and ``djangojs.po(t)``, then we should talk--open up an issue.
 
-5. Stop using Tower's gettext.
+5. Sync your strings
+
+   Using Tower, extract, merge and sync strings with Verbatim. That way you
+   know exactly what changed for the next few steps.
+
+6. Stop using Tower's gettext.
 
    Switch instances of this:
 
@@ -47,15 +52,26 @@ to do something like the following to switch to Puente.
       from django.utils.translation import ugettext as _
 
 
-   At the end of this step, you do not want to be using Tower's gettext
-   stuff at all.
+   At the end of this step, you do not want to be using Tower's gettext stuff at
+   all.
 
-5. Sync your strings
+7. Fix strings from non-trans-blocks that had whitespace in them in your code.
 
-   Using Tower, extract, merge and sync strings with Verbatim. That way you
-   know exactly what changed when you switched to Puente.
+   Puente only collapses whitespace for ``trans`` blocks--it no longer collapses
+   whitespace for all things. Given that, you want to fix your original strings
+   so that the msgids don't change which will create extra work for translators.
 
-6. Switch from Tower to Puente.
+   After you've done step 5, you can run:
+
+   .. code-block:: bash
+
+     ./manage.py extract
+
+   and see which msgids changed, then go fix those.
+
+   Generally, you want to switch from Tower to Puente with zero msgid changes.
+
+8. Switch from Tower to Puente.
 
    Puente works with Django 1.7 and Jingo 0.7.1. It also works with Django 1.8+
    and django-jinja. It probably works with other Django Jinja2 template
@@ -70,19 +86,3 @@ to do something like the following to switch to Puente.
       FIXME: Configuration changes here; probably point to configuration chapter
       with some helpers for TOWER -> PUENTE configuration conversion.
 
-   4. Fix strings from non-trans-blocks that had whitespace in them in your
-      code.
-
-      Puente only collapses whitespace for ``trans`` blocks--it no longer
-      collapses whitespace for all things. Given that, you want to fix your
-      original strings so that the msgids don't change which will create extra
-      work for translators.
-
-      One easy way to do this is switch to Puente and then run::
-
-        ./manage.py extract
-
-      and see which msgids changed, then go fix those.
-
-      Generally, you want to switch from Tower to Puente with zero msgid
-      changes.

@@ -73,6 +73,7 @@ class TestExtractCommand:
             #: foo.py:1
             msgid "python string"
             msgstr ""
+
             """)
         )
 
@@ -126,6 +127,7 @@ class TestExtractCommand:
             #: foo2.html:1
             msgid "trans tag test"
             msgstr ""
+
             """)
         )
 
@@ -169,6 +171,7 @@ class TestExtractCommand:
             msgctxt "context"
             msgid "string"
             msgstr ""
+
             """)
         )
 
@@ -210,18 +213,25 @@ class TestExtractCommand:
             pot_file ==
             dedent("""\
             #: foo.html:1
+            #, python-format
             msgid "html %(num)s thing"
             msgid_plural "html %(num)s things"
-            msgstr ""
+            msgstr[0] ""
+            msgstr[1] ""
 
             #: foo.html:2
+            #, python-format
             msgid "There is %(num)s thing."
             msgid_plural "There are %(num)s things."
-            msgstr ""
+            msgstr[0] ""
+            msgstr[1] ""
 
             #: foo.py:1
+            #, python-format
             msgid "%(num)s thing"
             msgid_plural "%(num)s things"
-            msgstr ""
+            msgstr[0] ""
+            msgstr[1] ""
+
             """)
         )

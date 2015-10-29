@@ -117,7 +117,7 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
 
    * ``python`` for Python files (Babel)
    * ``javascript`` for Javascript files (Babel)
-   * ``jinja2`` for Jinja2 templates (Jinja2)
+   * ``jinja2`` for Jinja2 templates (Jinja2) [#]_
    * ``ignore`` for files to ignore to alleviate difficulties in file matching
      (Babel)
 

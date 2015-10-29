@@ -1,6 +1,65 @@
 from babel.messages.extract import DEFAULT_KEYWORDS as BABEL_KEYWORDS
 
 
+def monkeypatch_i18n():
+    """Alleviates problems with extraction for trans blocks
+
+    Jinja2 has a ``babel_extract`` function which sets up a Jinja2
+    environment to parse Jinja2 templates to extract strings for
+    translation. That's awesome! Yay! However, when it goes to
+    set up the environment, it checks to see if the environment
+    has InternationalizationExtension in it and if not, adds it.
+
+    https://github.com/mitsuhiko/jinja2/blob/2.8/jinja2/ext.py#L587
+
+    That stomps on our PuenteI18nExtension so trans blocks don't get
+    whitespace collapsed and we end up with msgids that are different
+    between extraction and rendering. Argh!
+
+    Two possible ways to deal with this:
+
+    1. Rename our block from "trans" to something else like
+       "blocktrans" or "transam".
+
+       This means everyone has to make sweeping changes to their
+       templates plus we adjust gettext, too, so now we're talking
+       about two different extensions.
+
+    2. Have people include both InternationalizationExtension
+       before PuenteI18nExtension even though it gets stomped on.
+
+       This will look wrong in settings and someone will want to
+       "fix" it thus breaking extractino subtly, so I'm loathe to
+       force everyone to do this.
+
+    3. Stomp on the InternationalizationExtension variable in
+       ``jinja2.ext`` just before message extraction.
+
+       This is easy and hopefully the underlying issue will go away
+       soon.
+
+
+    For now, we're going to do number 3. Why? Because I'm hoping
+    Jinja2 will fix the trans tag so it collapses whitespace if
+    you tell it to. Then we don't have to do what we're doing and
+    all these problems go away.
+
+    We can remove this monkeypatch when one of the following is true:
+
+    1. we remove our whitespace collapsing code because Jinja2 trans
+       tag supports whitespace collapsing
+    2. Jinja2's ``babel_extract`` stops adding
+       InternationalizationExtension to the environment if it's
+       not there
+
+    """
+    import jinja2.ext
+    from puente.ext import PuenteI18nExtension
+
+    jinja2.ext.InternationalizationExtension = PuenteI18nExtension
+    jinja2.ext.i18n = PuenteI18nExtension
+
+
 def generate_keywords(additional_keywords=None):
     """Generates gettext keywords list
 

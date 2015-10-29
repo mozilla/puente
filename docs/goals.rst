@@ -85,21 +85,26 @@ What's different between Tower and Puente?
    indentation of the HTML template. That stinks because translators have to go
    through and fix all the translations.
 
-3. Tower has a bunch of extract code to support msgctxt, but Puente relies on
-   Django's pgettext functions and Babel's msgctxt support.
+3. Tower had a bunch of code to support msgctxt in extraction and gettext
+   calls, but Puente relies on Django's pgettext functions and Babel's
+   msgctxt support.
 
-4. Tower required Jingo, but Puente supports Jingo, django-jinja and other
+4. Tower used translate-toolkit to build the ``.pot`` file, but Puente uses
+   Babel for putting together the ``.pot`` file. Thus we don't need
+   translate-toolkit anymore.
+
+5. Tower required Jingo, but Puente supports Jingo, django-jinja and other
    Jinja2 template environments.
 
-5. Tower only supports Django 1.7 and lower versions and Puente only supports
+6. Tower only supports Django 1.7 and lower versions and Puente only supports
    Django 1.7+.
 
-6. Tower supports Python 2.6 and 2.7, but Puente supports 2.7.
+7. Tower supports Python 2.6 and 2.7, but Puente supports 2.7.
 
-7. Tower has most of the code in ``__init__.py``, but Puente tries to be easier
+8. Tower has most of the code in ``__init__.py``, but Puente tries to be easier
    to use.
 
-8. Tower uses nose for tests, but Puente uses py.test.
+9. Tower uses nose for tests, but Puente uses py.test.
 
    This is purely because I stopped using nose on my projects. Generally, I find
    py.test easier to set up and use these days. I don't want to change this

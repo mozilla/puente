@@ -6,8 +6,12 @@ from tempfile import TemporaryFile
 from django.conf import settings
 from django.core.management.base import CommandError
 
+from babel.messages.catalog import Catalog
 from babel.messages.extract import extract_from_dir
-from translate.storage import po
+from babel.messages.pofile import write_po
+
+from puente.utils import monkeypatch_i18n
+
 
 DEFAULT_DOMAIN_VALUE = 'all'
 
@@ -63,97 +67,6 @@ def generate_options_map():
     )
 
 
-def create_pounit(filename, lineno, msgid, comments, context):
-    unit = po.pounit(encoding='UTF-8')
-    if isinstance(msgid, tuple):
-        unit.setsource(list(msgid))
-    else:
-        unit.setsource(msgid)
-    if context:
-        unit.msgctxt = ['"%s"' % context]
-    for comment in comments:
-        unit.addnote(comment, 'developer')
-
-    unit.addlocation('%s:%s' % (filename, lineno))
-    # FIXME: Add variable format flags
-    # if python-format:
-    #     unit.settypecomment('python-format', present=True)
-    # if python-brace-format:
-    #     unit.settypecomment('python-brace-format', present=True)
-    return unit
-
-
-def create_pofile_from_babel(extracted):
-    catalog = po.pofile()
-
-    for extracted_unit in extracted:
-        filename, lineno, message, comments, context = extracted_unit
-        unit = create_pounit(filename, lineno, message, comments, context)
-        catalog.addunit(unit)
-
-    catalog.removeduplicates()
-    return catalog
-
-
-def monkeypatch_i18n():
-    """Alleviates problems with extraction for trans blocks
-
-    Jinja2 has a ``babel_extract`` function which sets up a Jinja2
-    environment to parse Jinja2 templates to extract strings for
-    translation. That's awesome! Yay! However, when it goes to
-    set up the environment, it checks to see if the environment
-    has InternationalizationExtension in it and if not, adds it.
-
-    https://github.com/mitsuhiko/jinja2/blob/2.8/jinja2/ext.py#L587
-
-    That stomps on our PuenteI18nExtension so trans blocks don't get
-    whitespace collapsed and we end up with msgids that are different
-    between extraction and rendering. Argh!
-
-    Two possible ways to deal with this:
-
-    1. Rename our block from "trans" to something else like
-       "blocktrans" or "transam".
-
-       This means everyone has to make sweeping changes to their
-       templates plus we adjust gettext, too, so now we're talking
-       about two different extensions.
-
-    2. Have people include both InternationalizationExtension
-       before PuenteI18nExtension even though it gets stomped on.
-
-       This will look wrong in settings and someone will want to
-       "fix" it thus breaking extractino subtly, so I'm loathe to
-       force everyone to do this.
-
-    3. Stomp on the InternationalizationExtension variable in
-       ``jinja2.ext`` just before message extraction.
-
-       This is easy and hopefully the underlying issue will go away
-       soon.
-
-
-    For now, we're going to do number 3. Why? Because I'm hoping
-    Jinja2 will fix the trans tag so it collapses whitespace if
-    you tell it to. Then we don't have to do what we're doing and
-    all these problems go away.
-
-    We can remove this monkeypatch when one of the following is true:
-
-    1. we remove our whitespace collapsing code because Jinja2 trans
-       tag supports whitespace collapsing
-    2. Jinja2's ``babel_extract`` stops adding
-       InternationalizationExtension to the environment if it's
-       not there
-
-    """
-    import jinja2.ext
-    from puente.ext import PuenteI18nExtension
-
-    jinja2.ext.InternationalizationExtension = PuenteI18nExtension
-    jinja2.ext.i18n = PuenteI18nExtension
-
-
 def extract_command(domain, outputdir, domain_methods, standalone_domains,
                     text_domain, keywords, comment_tags, base_dir):
     """Extracts strings into .pot files
@@ -169,8 +82,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
     :arg base_dir: BASE_DIR setting
 
     """
-    # Must monkeypatch first to fix InternationalizationExtension
-    # stomping issues! See docstring for details.
+    # Must monkeypatch first to fix i18n extensions stomping issues!
     monkeypatch_i18n()
 
     # Create the outputdir if it doesn't exist
@@ -189,21 +101,30 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
         if method != 'ignore':
             print '  %s' % filename
 
-    # Extract strings
+    # Extract string for each domain
     for domain in domains:
         print 'Extracting all strings in domain %s...' % (domain)
 
         methods = domain_methods[domain]
+
+        # FIXME: set project, version, msgid_bugs_address, copyright_holder
+        # here from settings.
+        catalog = Catalog(charset='utf-8')
         extracted = extract_from_dir(
             base_dir,
             method_map=methods,
+            options_map=generate_options_map(),
             keywords=keywords,
             comment_tags=comment_tags,
             callback=callback,
-            options_map=generate_options_map(),
         )
-        catalog = create_pofile_from_babel(extracted)
-        catalog.savefile(os.path.join(outputdir, '%s.pot' % domain))
+
+        for filename, lineno, msg, cmts, ctxt in extracted:
+            catalog.add(msg, None, [(filename, lineno)], auto_comments=cmts,
+                        context=ctxt)
+
+        with open(os.path.join(outputdir, '%s.pot' % domain), 'w') as fp:
+            write_po(fp, catalog)
 
     not_standalone_domains = [
         dom for dom in domains

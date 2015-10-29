@@ -34,7 +34,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'translate-toolkit',
         'babel',
         'jinja2',
         'django>=1.8'
@@ -54,4 +53,8 @@ setup(
         'Programming Language :: Python :: 3.3',
     ],
     test_suite='tests',
+    entry_points="""
+    [babel.extractors]
+    puente_jinja2 = puente.extract:extract_from_jinja2
+    """
 )

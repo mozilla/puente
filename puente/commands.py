@@ -124,7 +124,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
                         context=ctxt)
 
         with open(os.path.join(outputdir, '%s.pot' % domain), 'w') as fp:
-            write_po(fp, catalog)
+            write_po(fp, catalog, width=80)
 
     not_standalone_domains = [
         dom for dom in domains

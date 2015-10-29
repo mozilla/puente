@@ -83,6 +83,41 @@ to do something like the following to switch to Puente.
 
    3. Make the configuration changes
 
-      FIXME: Configuration changes here; probably point to configuration chapter
-      with some helpers for TOWER -> PUENTE configuration conversion.
+      Tower configuration probably looks something like this:
 
+      .. code-block:: python
+
+         # in settings.py
+         DOMAIN_METHODS = {
+             'django': [
+                 ('fjord/**.py', 'tower.tools.extract_tower_python'),
+                 ('fjord/**.html', 'tower.tools.extract_tower_template'),
+             ],
+             'djangojs': [
+                 ('**.js', 'javascript')
+             ]
+         }
+         STANDALONE_DOMAINS = ['django']
+
+
+      The equivalent Puente configuration is something like this:
+
+      .. code-block:: python
+
+         # in settings.py
+         PUENTE = {
+             'BASE_DIR': BASE_DIR,
+             'DOMAIN_METHODS': {
+                 'django': [
+                     ('fjord/**.py', 'python'),
+                     ('fjord/**.html', 'jinja2'),
+                 ],
+                 'djangojs': [
+                     ('**.js', 'javascript')
+                 ]
+             }
+         }
+
+
+      If you have a more complex Tower configuration than that, hop on
+      ``#puente`` on ``irc.mozilla.org`` and we'll work it out.

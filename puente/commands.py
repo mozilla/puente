@@ -1,14 +1,13 @@
 import os
 import tempfile
-from subprocess import Popen, call, PIPE
+from subprocess import PIPE, Popen, call
 from tempfile import TemporaryFile
-
-from django.conf import settings
-from django.core.management.base import CommandError
 
 from babel.messages.catalog import Catalog
 from babel.messages.extract import extract_from_dir
 from babel.messages.pofile import write_po
+from django.conf import settings
+from django.core.management.base import CommandError
 
 from puente.utils import monkeypatch_i18n
 
@@ -107,9 +106,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
 
         methods = domain_methods[domain]
 
-        # FIXME: set project, version, msgid_bugs_address, copyright_holder
-        # here from settings.
-        catalog = Catalog(charset='utf-8')
+        catalog = Catalog(charset='utf-8', header_comment='')
         extracted = extract_from_dir(
             base_dir,
             method_map=methods,

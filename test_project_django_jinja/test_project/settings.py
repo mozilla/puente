@@ -93,8 +93,8 @@ PUENTE = {
     'BASE_DIR': BASE_DIR,
     'DOMAIN_METHODS': {
         'django': [
-            ('jinja2/*.html', 'puente.extract.extract_jinja2'),
-            ('*.py', 'puente.extract.extract_python')
+            ('jinja2/*.html', 'jinja2'),
+            ('*.py', 'python'),
         ]
     }
 }

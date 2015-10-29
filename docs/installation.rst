@@ -60,8 +60,8 @@ file. Here's a minimal example:
        'BASE_DIR': BASE_DIR,
        'DOMAIN_METHODS': {
            'django': [
-               ('jinja2/*.html', 'puente.extract.extract_jinja2'),
-               ('*.py', 'puente.extract.extract_python')
+               ('jinja2/*.html', 'jinja2'),
+               ('*.py', 'python'),
            ]
        }
    }
@@ -111,13 +111,18 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
 
    The file matcher uses ``*`` and ``**`` glob patterns.
 
-   The extractor is the Babel extractor function used to extract the strings
-   from files of that type. Puente helpfully centralizes these in the
-   ``puente.extract`` module:
+   The only valid domains are ``django`` and ``djangojs``.
 
-   * ``puente.extract.extract_jinja2``: Extracts strings from Jinja2 templates.
-   * ``puente.extract.extract_python``: Extracts strings from Python code
-     files.
+   Valid extractors include:
+
+   * ``python`` for Python files (Babel)
+   * ``javascript`` for Javascript files (Babel)
+   * ``jinja2`` for Jinja2 templates (Jinja2)
+   * ``ignore`` for files to ignore to alleviate difficulties in file matching
+     (Babel)
+
+   You can use extractors provided by other libraries, too. You can also use a
+   dotted path to the extraction function.
 
    For example:
 
@@ -126,13 +131,14 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
       PUENTE = {
           'DOMAIN_METHODS': {
               'django': [
-                  ('jinja2/*.html', 'puente.extract.extract_jinja2'),
-                  ('*.py', 'puente.extract.extract_python')
+                  ('jinja2/*.html', 'jinja2'),
+                  ('*.py', 'python')
+              ],
+              'djangojs': [
+                  ('**.js', 'javascript'),
               ]
           }
       }
-
-   This should have ``django`` and ``javascript`` keys only.
 
 
 .. py:data:: KEYWORDS

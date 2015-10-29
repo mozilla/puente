@@ -56,13 +56,9 @@ What's different between Tower and Puente?
 
 1. Tower defaults to ``messages.po/pot``, but Puente defaults to ``django.po/pot``.
 
-   FIXME: See if Puente can do messages.po and multiple .po files. Probably
-   can't because we nixed all the activation code. Given that, we might
-   want to nix the domain code, too, so we only allow for ``django.po`` and
-   ``javascript.po``?
-
-   Django's ``makemessages`` command creates a ``django.pot`` file and a
-   ``javascript.pot`` file, so that's what we support with Puente, too.
+   Django's ``makemessages`` command supports ``django`` and ``djangojs``
+   domains which create ``django.po(t)`` and ``djangojs.po(t)`` files so that's
+   what we support with Puente, too.
 
    As far as I can tell, this won't be a problem for most situations. However,
    there is one situation where this makes things difficult. If you had parts of
@@ -70,12 +66,7 @@ What's different between Tower and Puente?
    translated, but if it's not translated, it's not a big deal, then this
    makes that difficult.
 
-   One thought I had was to adjust extract/merge to support multiple ``.po``
-   files, but then write a ``compilemessages`` command that moves all the
-   strings into a single file and then compiles them to a ``.mo`` file. That
-   allows us to have different ``.po`` files with different translation
-   requirements, but compile down to a single ``django.mo`` and
-   ``javascript.mo`` files.
+   That's on the list of things to mull over.
 
 2. Tower collapses whitespace for all extracted strings, but Puente only
    collapses whitespace for Jinja2 trans blocks.

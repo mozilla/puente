@@ -45,8 +45,8 @@ class TestExtractCommand:
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
-                    ('*.py', 'puente.extract.extract_python'),
-                    ('*.html', 'puente.extract.extract_jinja2')
+                    ('*.py', 'python'),
+                    ('*.html', 'jinja2'),
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
@@ -98,8 +98,8 @@ class TestExtractCommand:
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
-                    ('*.py', 'puente.extract.extract_python'),
-                    ('*.html', 'puente.extract.extract_jinja2')
+                    ('*.py', 'python'),
+                    ('*.html', 'jinja2'),
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
@@ -144,8 +144,8 @@ class TestExtractCommand:
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
-                    ('*.py', 'puente.extract.extract_python'),
-                    ('*.html', 'puente.extract.extract_jinja2')
+                    ('*.py', 'python'),
+                    ('*.html', 'jinja2'),
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,
@@ -192,8 +192,8 @@ class TestExtractCommand:
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
-                    ('*.py', 'puente.extract.extract_python'),
-                    ('*.html', 'puente.extract.extract_jinja2')
+                    ('*.py', 'python'),
+                    ('*.html', 'jinja2'),
                 ]
             },
             standalone_domains=puente_settings.STANDALONE_DOMAINS,

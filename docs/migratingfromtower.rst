@@ -18,17 +18,18 @@ to do something like the following to switch to Puente.
    Tower let you have many domains and defaulted to ``messages.po(t)``.
 
    Puente is moving closer to vanilla Django. Django uses ``django.po(t)`` and
-   ``javascript.po(t)``, so Puente does, too.
+   ``djangojs.po(t)``, so Puente does, too.
 
    * If you just have ``messages.po(t)`` and ``javascript.po(t)``, then rename
-     your ``message.po(t)`` to ``django.po(t)`` and sync with your translation
-     system (e.g. Verbatim, Pontoon, etc).
+     your ``message.po(t)`` to ``django.po(t)`` and ``javascript.po(t)`` to
+     ``djangojs.po(t)`` and sync with your translation system (e.g. Verbatim,
+     Pontoon, etc).
 
    * If you have a bunch of domains and you can squash them all into
-     ``django.po(t)`` and ``javascript.po(t)``, then do that.
+     ``django.po(t)`` and ``djangojs.po(t)``, then do that.
 
    * If you have a bunch of domains and can't squash them into ``django.po(t)``
-     and ``javascript.po(t)``, then we should talk--open up an issue.
+     and ``djangojs.po(t)``, then we should talk--open up an issue.
 
 5. Stop using Tower's gettext.
 

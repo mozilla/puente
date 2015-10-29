@@ -31,6 +31,7 @@ def test_collapse_whitespace():
         ('', ''),
         ('    ', ''),
         ('  \n\t\r\n   ', ''),
+        ('foo\n\nbar', 'foo bar'),
         ('foo', 'foo'),
         ('   foo   ', 'foo'),
         ('   foo\n    bar', 'foo bar')

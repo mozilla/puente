@@ -1,4 +1,5 @@
 import os
+from optparse import make_option
 
 from django.core.management.base import BaseCommand
 
@@ -9,26 +10,27 @@ from puente.settings import get_setting
 class Command(BaseCommand):
     help = 'Extracts strings for translation.'
 
-    def add_arguments(self, parser):
-        parser.add_argument(
+    option_list = BaseCommand.option_list + (
+        make_option(
             '--domain', '-d', default=DEFAULT_DOMAIN_VALUE,
             dest='domain',
             help=(
                 'The domain of the message files. If "all" '
                 'everything will be extracted and combined into '
-                '%s.pot. (default: %%%%default).' % get_setting('TEXT_DOMAIN')
+                '%s.pot. (default: %%default).' % get_setting('TEXT_DOMAIN')
             )
-        )
-        parser.add_argument(
+        ),
+        make_option(
             '--output-dir', '-o',
             default=os.path.join(get_setting('BASE_DIR'), 'locale',
                                  'templates', 'LC_MESSAGES'),
             dest='outputdir',
             help=(
                 'The directory where extracted files will be placed. '
-                '(Default: %%default)'
+                '(Default: %default)'
             )
         )
+    )
 
     def handle(self, *args, **options):
         return extract_command(

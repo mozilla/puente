@@ -30,7 +30,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Will Kahn-Greene',
     author_email='willkg@mozilla.com',
-    url='https://github.com/willkg/puente',
+    url='https://github.com/mozilla/puente',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[

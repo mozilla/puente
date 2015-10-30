@@ -11,19 +11,16 @@ using Jinja2 templates.
   ``.pot`` file
 * merge command that merges new strings from a ``.pot`` file into locale ``.po``
   files
-* Babel Python message extractor
-* Babel Jinja2 message extractor
 * code to collapse whitespace for Jinja2's trans block
 * code to mark all gettext output as safe in templates
+* driven from Django settings
+* solid documentation
 
-This is derived from `Tower <https://github.com/clouserw/tower>`_ but
-heavily changed to no longer require Jingo and also support django-jingo
-and Django 1.8+.
+This is derived from `Tower <https://github.com/clouserw/tower>`_, but heavily
+changed.
 
-FIXME:
-
-:Code:          https://github.com/willkg/puente/
-:Issues:        https://github.com/willkg/puente/issues
+:Code:          https://github.com/mozilla/puente/
+:Issues:        https://github.com/mozilla/puente/issues
 :License:       BSD 3-clause; See LICENSE
 :Contributors:  See AUTHORS.rst
 :Documentation: https://puente.readthedocs.org/en/latest/
@@ -40,16 +37,19 @@ Run::
 
     $ pip install puente
 
-FIXME: Doesn't work until we post it to PyPI.
-
 
 For hacking
 -----------
 
 Run::
 
-    $ git clone https://github.com/willkg/puente
+    # Clone the repository
+    $ git clone https://github.com/mozilla/puente
+
     # Create a virtualenvironment
+    ...
+
+    # Install Puente and dev requirements
     $ pip install -r requirements-dev.txt
 
 

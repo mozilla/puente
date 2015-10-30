@@ -196,12 +196,9 @@ def merge_command(create, base_dir, standalone_domains, languages):
         for locale in os.listdir(locale_dir):
             if ((not os.path.isdir(os.path.join(locale_dir, locale)) or
                  locale.startswith('.') or
-                 locale == 'templates' or
-                 locale == 'compendia')):
+                 locale == 'templates')):
                 continue
 
-            compendium = os.path.join(locale_dir, 'compendia',
-                                      '%s.compendium' % locale)
             domain_po = os.path.join(locale_dir, locale, 'LC_MESSAGES',
                                      '%s.po' % domain)
 
@@ -238,9 +235,6 @@ def merge_command(create, base_dir, standalone_domains, languages):
                 domain_po,
                 '-'
             ]
-            if os.path.isfile(compendium):
-                print '(using a compendium)'
-                command.insert(1, '--compendium=%s' % compendium)
             p3 = Popen(command, stdin=mergeme)
             p3.communicate()
             mergeme.close()

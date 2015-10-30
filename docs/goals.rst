@@ -38,23 +38,24 @@ We need to do the following before we can end Puente:
 2. Need to figure out what to do about making gettext output safe for
    Jinja2 templates by default.
 
-3. Puente probably needs a merged makemessages command that does both extract
-   and merge and works the way Django's does.
+3. Puente's extract command should work more like Babel's pybabel extract
+   command.
+
+   The way forward is to phase Puente out for pybabel. In order to make that
+   work well, we should mimic pybabel's extract command more closely.
 
    This should probably be broken up into more steps as we discover differences.
 
-4. Django or django-jinja should grow a proper strings extractor for Jinja2.
+4. Ditch Puente's merge for pybabel's update?
 
-   Currently, Django can't extract from Jinja2 templates at all and django-jinja
-   tweaks some regexps so that Django's makemessages can "parse' Jinja2
-   templates to extract strings. This method isn't great especially if you add
-   Jinja2 tags or modify the trans tag or tweak the gettext function.
+5. Is there anything else?
 
 
 What's different between Tower and Puente?
 ==========================================
 
-1. Tower defaults to ``messages.po/pot``, but Puente defaults to ``django.po/pot``.
+1. Tower defaults to ``messages`` and ``javascript``, but Puente defaults to
+   ``django`` and ``djangojs``.
 
    Django's ``makemessages`` command supports ``django`` and ``djangojs``
    domains which create ``django.po(t)`` and ``djangojs.po(t)`` files so that's
@@ -63,10 +64,10 @@ What's different between Tower and Puente?
    As far as I can tell, this won't be a problem for most situations. However,
    there is one situation where this makes things difficult. If you had parts of
    the site that **need** to be fully translated and other parts that need to be
-   translated, but if it's not translated, it's not a big deal, then this
-   makes that difficult.
+   translated, but if it's not translated, it's not a big deal, then this makes
+   that difficult.
 
-   That's on the list of things to mull over.
+   That's on the list of things to mull over how to deal with.
 
 2. Tower collapses whitespace for all extracted strings, but Puente only
    collapses whitespace for Jinja2 trans blocks.
@@ -78,7 +79,7 @@ What's different between Tower and Puente?
    https://github.com/mitsuhiko/jinja2/issues/504
 
    If that got implemented, then we could drop the tweaks we do to the ``trans``
-   block.
+   block and use vanilla Jinja2 trans block.
 
    I think it's important to collapse whitespace in trans blocks because they're
    the most susceptible to msgid changes merely because of adjustments to
@@ -87,7 +88,7 @@ What's different between Tower and Puente?
 
 3. Tower had a bunch of code to support msgctxt in extraction and gettext
    calls, but Puente relies on Django's pgettext functions and Babel's
-   msgctxt support.
+   msgctxt support and that works super.
 
 4. Tower used translate-toolkit to build the ``.pot`` file, but Puente uses
    Babel for putting together the ``.pot`` file. Thus we don't need
@@ -99,10 +100,11 @@ What's different between Tower and Puente?
 6. Tower only supports Django 1.7 and lower versions and Puente only supports
    Django 1.7+.
 
-7. Tower supports Python 2.6 and 2.7, but Puente supports 2.7.
+7. Tower supports Python 2.6 and 2.7, but Puente supports 2.7. Hopefully Python
+   3 in the near future.
 
 8. Tower has most of the code in ``__init__.py``, but Puente tries to be easier
-   to use.
+   to use so you can import it without problems.
 
 9. Tower uses nose for tests, but Puente uses py.test.
 

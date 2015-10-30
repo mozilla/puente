@@ -22,6 +22,7 @@ Maintainer's Guide
 
    contributing
    goals
+   release
 
 
 Indices and tables

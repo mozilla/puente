@@ -1,11 +1,10 @@
 .. :changelog:
 
+=======
 History
 =======
 
-0.1.0 (In development)
-----------------------
+0.1.0 (October 30th, 2015)
+==========================
 
-Changes:
-
-* Initial writing
+Initial writing. Everything has changed!

@@ -43,5 +43,8 @@ class Command(BaseCommand):
             text_domain=get_setting('TEXT_DOMAIN'),
             keywords=get_setting('KEYWORDS'),
             comment_tags=get_setting('COMMENT_TAGS'),
-            base_dir=get_setting('BASE_DIR')
+            base_dir=get_setting('BASE_DIR'),
+            project=get_setting('PROJECT'),
+            version=get_setting('VERSION'),
+            msgid_bugs_address=get_setting('MSGID_BUGS_ADDRESS'),
         )

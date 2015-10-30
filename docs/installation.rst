@@ -255,6 +255,39 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
       }
 
 
+.. py:data:: PROJECT
+
+   :type: String
+   :default: "PROJECT"
+   :required: No
+
+   The name of this project. This goes in the ``.pot`` and ``.po`` files and
+   could help translators know which project this file that they're translating
+   belongs to.
+
+.. py:data:: VERSION
+
+   :type: String
+   :default: "1.0"
+   :required: No
+
+   The version of this project. This goes in the ``.pot`` and ``.po`` files and
+   could help translators know which version of the project this file that
+   they're translating belongs to.
+
+.. py:data:: MSGID_BUGS_ADDRESS
+
+   :type: String
+   :default: ""
+   :required: No
+
+   The email address or url to send bugs related to msgids to. Without this, it's
+   hard for a translator to know how to report issues back. If they have this,
+   then reporting issues is much easier.
+
+   You want good strings, so this is a good thing to set.
+
+
 Extract and merge usage
 =======================
 

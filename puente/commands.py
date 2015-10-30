@@ -67,7 +67,8 @@ def generate_options_map():
 
 
 def extract_command(domain, outputdir, domain_methods, standalone_domains,
-                    text_domain, keywords, comment_tags, base_dir):
+                    text_domain, keywords, comment_tags, base_dir,
+                    project, version, msgid_bugs_address):
     """Extracts strings into .pot files
 
     :arg domain: domains to generate strings for or 'all' for all domains
@@ -79,6 +80,9 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
     :arg keywords: KEYWORDS setting
     :arg comment_tags: COMMENT_TAGS setting
     :arg base_dir: BASE_DIR setting
+    :arg project: PROJECT setting
+    :arg version: VERSION setting
+    :arg msgid_bugs_address: MSGID_BUGS_ADDRESS setting
 
     """
     # Must monkeypatch first to fix i18n extensions stomping issues!
@@ -106,7 +110,13 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
 
         methods = domain_methods[domain]
 
-        catalog = Catalog(charset='utf-8', header_comment='')
+        catalog = Catalog(
+            header_comment='',
+            project=project,
+            version=version,
+            msgid_bugs_address=msgid_bugs_address,
+            charset='utf-8',
+        )
         extracted = extract_from_dir(
             base_dir,
             method_map=methods,

@@ -28,6 +28,15 @@ BASE_DIR = None
 # and we'll pick up the settings from the first template handler specified.
 JINJA2_CONFIG = None
 
+# The name of the project.
+PROJECT = 'PROJECT'
+
+# The version of the project.
+VERSION = '1.0'
+
+# Email address or url for reporting msgid-related bugs to.
+MSGID_BUGS_ADDRESS = ''
+
 
 def get_setting(key):
     from django.conf import settings

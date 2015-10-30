@@ -53,7 +53,10 @@ class TestExtractCommand:
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            base_dir=str(tmpdir)
+            base_dir=str(tmpdir),
+            project=puente_settings.PROJECT,
+            version=puente_settings.VERSION,
+            msgid_bugs_address=puente_settings.MSGID_BUGS_ADDRESS,
         )
 
         # Verify contents
@@ -75,6 +78,51 @@ class TestExtractCommand:
             msgstr ""
 
             """)
+        )
+
+    def test_header(self, tmpdir):
+        # Extract
+        extract_command(
+            domain='all',
+            outputdir=str(tmpdir),
+            domain_methods={
+                'django': [
+                    ('*.py', 'python'),
+                    ('*.html', 'jinja2'),
+                ]
+            },
+            standalone_domains=puente_settings.STANDALONE_DOMAINS,
+            text_domain=puente_settings.TEXT_DOMAIN,
+            keywords=puente_settings.KEYWORDS,
+            comment_tags=puente_settings.COMMENT_TAGS,
+            base_dir=str(tmpdir),
+            project='Fjord',
+            version='2000',
+            msgid_bugs_address='https://bugzilla.mozilla.org/'
+        )
+
+        # Verify contents
+        assert os.path.exists(str(tmpdir.join('django.pot')))
+        pot_file = tmpdir.join('django.pot').read().splitlines()
+
+        def get_value(key, pot_file):
+            """Returns the value for a given key in a potfile header
+
+            A line looks like this::
+
+               "Project-Id-Version: PROJECT VERSION\n"
+
+            Given the key "Project-Id-Version" we want "PROJECT VERSION".
+
+            """
+
+            line = [line for line in pot_file if line.startswith('"' + key)][0]
+            return line.split(' ', 1)[1][:-3]  # slash, n, double-quote
+
+        assert get_value('Project-Id-Version', pot_file) == 'Fjord 2000'
+        assert (
+            get_value('Report-Msgid-Bugs-To', pot_file) ==
+            'https://bugzilla.mozilla.org/'
         )
 
     def test_whitespace_collapsing(self, tmpdir):
@@ -107,7 +155,10 @@ class TestExtractCommand:
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            base_dir=str(tmpdir)
+            base_dir=str(tmpdir),
+            project=puente_settings.PROJECT,
+            version=puente_settings.VERSION,
+            msgid_bugs_address=puente_settings.MSGID_BUGS_ADDRESS,
         )
 
         # Verify contents
@@ -154,7 +205,10 @@ class TestExtractCommand:
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            base_dir=str(tmpdir)
+            base_dir=str(tmpdir),
+            project=puente_settings.PROJECT,
+            version=puente_settings.VERSION,
+            msgid_bugs_address=puente_settings.MSGID_BUGS_ADDRESS,
         )
 
         # Verify contents
@@ -203,7 +257,10 @@ class TestExtractCommand:
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
-            base_dir=str(tmpdir)
+            base_dir=str(tmpdir),
+            project=puente_settings.PROJECT,
+            version=puente_settings.VERSION,
+            msgid_bugs_address=puente_settings.MSGID_BUGS_ADDRESS,
         )
 
         # Verify contents

@@ -8,7 +8,7 @@ Release process
    ``docs/installation.rst``  have correct version of
    elasticsearch-py.
 
-3. Update version numbers in ``elasticutils/_version.py``.
+3. Update version numbers in ``puente/__init__.py``.
 
    1. Set ``__version__`` to something like ``0.4``.
    2. Set ``__releasedate__`` to something like ``20120731``.

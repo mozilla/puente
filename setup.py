@@ -34,9 +34,9 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'babel',
-        'jinja2',
-        'django>=1.8'
+        'babel>=2.1.1',
+        'jinja2>=2.7',
+        'django>=1.7'
     ],
     license="BSD",
     zip_safe=True,
@@ -49,8 +49,6 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
     ],
     test_suite='tests',
     entry_points="""

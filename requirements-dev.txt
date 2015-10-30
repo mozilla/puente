@@ -12,3 +12,8 @@ tox
 
 # to build docs
 Sphinx
+
+# to do releases
+twine
+check-manifest
+wheel

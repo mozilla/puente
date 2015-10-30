@@ -1,8 +1,14 @@
-include AUTHORS.rst
-include CONTRIBUTING.rst
-include HISTORY.rst
+include *.rst
+include Makefile
+include pytest-jingo.ini
+include pytest.ini
+include tox.ini
+include requirements-dev.txt
 include LICENSE
-include README.rst
 
-recursive-include puente *.py
-recursive-include puente/docs *.rst *.py
+recursive-include docs *.bat
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include test_project_django_jinja *.py
+recursive-include test_project_jingo *.py

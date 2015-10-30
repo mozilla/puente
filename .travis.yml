@@ -1,15 +1,11 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
-
+sudo: false
 python:
-  - "3.3"
-  - "2.7"
-  - "2.6"
-  - "pypy"
-
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -r requirements-dev.txt
-
-# command to run tests, e.g. python setup.py test
-script: python setup.py test
+    - "2.7"
+install:
+    - pip install tox
+script:
+    - tox
+env:
+    - TOXENV=py27_dj17_jingo
+    - TOXENV=py27_dj18_django_jinja

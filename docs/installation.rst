@@ -51,10 +51,9 @@ using django-jinja, then it might look like this:
                     # ...
                     'puente.ext.PuenteI18nExtension',
                     # ...
-            ],
-            # ...
+                ],
+           },
        }
-       # ...
    ]
 
 
@@ -213,27 +212,27 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
    :default: Complicated...
    :required: Possibly
 
-   This is the configuration that the extractor uses to build a Jinja2
-   environment in which to parse the template. If this doesn't match the
-   environment that your Jinja2 templates are executing in, then you could have
-   problems.
+   This has the options to pass to ``babel_extract``.
 
-   It could have the following things in it depending on how you've configured
-   your Django Jinja2 template engine:
+   http://jinja.pocoo.org/docs/dev/integration/#babel-integration
 
-   * ``autoescape``: ``True`` or ``False``
-   * ``newstyle_gettext``: ``True`` or ``False``
-   * ``undefined``: the undefined class to use
-   * ``extensions`` list of extensions you're using
+   **Setting it yourself**
 
-   .. Note::
+   Generally, you can add syntax-related options that'd you'd pass in to
+   build a new Jinja2 Environment:
 
-      If you're using django-jinja, then Puente will extract this information
-      from the first template handler that uses the
-      ``django_jinja.backend.Jinja2`` backend. If that works for you, then you
-      don't need to set this.
+   http://jinja.pocoo.org/docs/dev/api/#jinja2.Environment
 
-   Example:
+   Additionally, in Jinja2 2.7, they added a ``silent`` option which dictates
+   whether the parser fails silently when parsing Jinja2 templates. This
+   commonly happens in two scenarios:
+
+   1. The list of extensions passed isn't the complete list.
+   2. The HTML file isn't a Jinja2 template.
+
+   For debugging purposes, you definitely want ``silent=False``.
+
+   Example of ``JINJA2_CONFIG``:
 
    .. code-block:: python
 
@@ -252,6 +251,49 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
                   'puente.ext.PuenteI18nExtension',
               ]
           }
+      }
+
+   **Having Puente figure it out for you**
+
+   If you're using Jingo or django-jinja, then Puente will try to extract the
+   list of extensions from the relevant settings. If that works for you, then
+   you don't need to set this.
+
+   If Puente is figuring it out, it will automatically add silent=False.
+
+   For example, if you're using django-jinja with these settings:
+
+   .. code-block:: python
+
+      TEMPLATES = [
+          {
+              'BACKEND': 'django_jinja.backend.Jinja2',
+              # ...
+              'OPTIONS': {
+                   # ...
+                   'extensions': [
+                       # ...
+                       'puente.ext.PuenteI18nExtension',
+                       # ...
+                   ],
+              }
+          }
+      ]
+
+   Then Puente will build something like this:
+
+   .. code-block:: python
+
+      PUENTE = {
+         # ...
+         'JINJA_CONFIG': {
+            'extensions': [
+                # ...
+                'puente.ext.PuenteI18nExtension',
+                # ...
+            ],
+            'silent': 'False'
+         }
       }
 
 
@@ -286,6 +328,15 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
    then reporting issues is much easier.
 
    You want good strings, so this is a good thing to set.
+
+   For example:
+
+   .. code-block:: python
+
+      PUENTE = {
+          # ...
+          'MSGID_BUGS_ADDRESS': 'https://bugzilla.mozilla.org/enter_bug.cgi?project=Input'
+      }
 
 
 Extract and merge usage

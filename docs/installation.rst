@@ -253,3 +253,32 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
               ]
           }
       }
+
+
+Extract and merge usage
+=======================
+
+Message extraction
+------------------
+
+After you've configured Puente, you can extract messages like this:
+
+.. code-block:: bash
+
+   $ ./manage.py extract
+
+
+This will extract all the strings specified by the ``DOMAIN_METHODS``
+setting and put them into a ``<domain>.pot`` file.
+
+
+Message merge
+-------------
+
+After you've extracted messages, you'll want to merge new messages into
+new or existing locale-specific ``.po`` files. You can merge messages
+like this:
+
+.. code-block:: bash
+
+   $ ./manage.py merge

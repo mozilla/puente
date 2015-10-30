@@ -11,7 +11,8 @@ User's Guide
    migratingfromtower
    authors
    history
-
+   granola
+              
 
 Maintainer's Guide
 ==================

@@ -44,7 +44,8 @@ def generate_options_map():
             extensions = tmpl_config.get('OPTIONS', {}).get('extensions', [])
             return {
                 '**.*': {
-                    'extensions': ','.join(extensions)
+                    'extensions': ','.join(extensions),
+                    'silent': 'False',
                 }
             }
 
@@ -56,7 +57,8 @@ def generate_options_map():
             jinja_config = jinja_config()
         return {
             '**.*': {
-                'extensions': ','.join(jinja_config['extensions'])
+                'extensions': ','.join(jinja_config['extensions']),
+                'silent': 'False',
             }
         }
 

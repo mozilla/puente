@@ -26,29 +26,18 @@ With a library like this where it's pretty small in scope, it seemed way easier
 to break with the past, take the interesting parts and start anew.
 
 
-Current status of phasing Puente out
-====================================
+Why not just use Babel?
+=======================
 
-We need to do the following before we can end Puente:
+Puente does three nice things:
 
-1. IN PROGRESS: Jinja2 needs to collapse whitespace in the trans tag
+1. makes it easy to migrate from Tower to something you can use with Django 1.8
+2. collapses whitespace in Jinja2 trans blocks and marks gettext output as safe
+3. pulls bits from Django settings to configure extraction (e.g. Jinja2
+   extensions)
 
-   https://github.com/mitsuhiko/jinja2/issues/504
-
-2. Need to figure out what to do about making gettext output safe for
-   Jinja2 templates by default.
-
-3. Puente's extract command should work more like Babel's pybabel extract
-   command.
-
-   The way forward is to phase Puente out for pybabel. In order to make that
-   work well, we should mimic pybabel's extract command more closely.
-
-   This should probably be broken up into more steps as we discover differences.
-
-4. Ditch Puente's merge for pybabel's update?
-
-5. Is there anything else?
+If you don't care about any of those things, go use Babel's pybabel command and
+Jinja2's i18n extension--don't use Puente.
 
 
 What's different between Tower and Puente?
@@ -113,3 +102,36 @@ What's different between Tower and Puente?
    unless there's a compelling reason. Generally, if you were maintaining the
    project, I'd encourage you to use whichever test framework works best for
    you.
+
+
+Current status of phasing Puente out
+====================================
+
+The best future for Puente is that it gets phased out because it's not needed
+anymore.
+
+We need to do the following before we can end Puente:
+
+1. IN PROGRESS: Jinja2 needs to collapse whitespace in the trans tag
+
+   https://github.com/mitsuhiko/jinja2/issues/504
+
+2. Need to figure out what to do about making gettext output safe for
+   Jinja2 templates by default.
+
+3. Puente's extract command should work more like Babel's pybabel extract
+   command.
+
+   The way forward is to phase Puente out for pybabel. In order to make that
+   work well, we should mimic pybabel's extract command more closely.
+
+   This should probably be broken up into more steps as we discover differences.
+
+4. Ditch Puente's merge for pybabel's update?
+
+5. Need a nice way to use Django settings for pybabel configuration. For
+   example, I'd rather not have to define the list of Jinja2 extensions to use
+   in two places.
+
+6. Is there anything else?
+

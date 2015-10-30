@@ -26,7 +26,7 @@ FIXME:
 :Issues:        https://github.com/willkg/puente/issues
 :License:       BSD 3-clause; See LICENSE
 :Contributors:  See AUTHORS.rst
-:Documentation: FIXME
+:Documentation: https://puente.readthedocs.org/en/latest/
 :IRC:           #puente on irc.mozilla.org
 
 

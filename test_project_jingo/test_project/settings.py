@@ -46,7 +46,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 def JINJA_CONFIG():
     config = {
         'extensions': [
-            'jinja2.ext.i18n',
             'jinja2.ext.with_',
             'jinja2.ext.loopcontrols',
             'jinja2.ext.autoescape',

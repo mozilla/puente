@@ -14,7 +14,7 @@ KEYWORDS = generate_keywords()
 STANDALONE_DOMAINS = [TEXT_DOMAIN]
 
 # Prefixes that indicate a comment tag intended for localizers
-COMMENT_TAGS = ['L10n:', 'L10N:', 'l10n:', 'l10N:']
+COMMENT_TAGS = ['L10n:', 'L10N:', 'l10n:', 'l10N:', 'Translators:']
 
 # Tells the extract script what files to look for L10n in and what
 # function handles the extraction.

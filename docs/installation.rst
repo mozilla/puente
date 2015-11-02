@@ -190,7 +190,7 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
 .. py:data:: COMMENT_TAGS
 
    :type: List of strings
-   :default: ``['L10n:', 'L10N:', 'l10n:', 'l10N:']``
+   :default: ``['Translators:', 'L10n:', 'L10N:', 'l10n:', 'l10N:']``
    :required: No
 
    The list of prefixes that denote a comment tag intended for the translator.
@@ -204,6 +204,11 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
 
 
    Then the comment will get extracted as a translator comment.
+
+   .. Note::
+
+      Django project uses "Translators:", so if you use that, you're closer
+      to vanilla Django.
 
 
 .. py:data:: JINJA2_CONFIG

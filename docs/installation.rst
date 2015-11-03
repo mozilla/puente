@@ -35,9 +35,9 @@ In ``settings.py`` add Puente to ``INSTALLED_APPS``:
    ]
 
 
-In ``settings.py`` add ``puente.ext.PuenteI18nExtension`` as an extension
-in your Jinja2 template environment configuration. For example, if you were
-using django-jinja, then it might look like this:
+In ``settings.py`` add ``puente.ext.i18n`` as an extension in your Jinja2
+template environment configuration. For example, if you were using django-jinja,
+then it might look like this:
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ using django-jinja, then it might look like this:
                 # ...
                 'extensions': [
                     # ...
-                    'puente.ext.PuenteI18nExtension',
+                    'puente.ext.i18n',
                     # ...
                 ],
            },
@@ -253,7 +253,7 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
                   'django_jinja.builtins.extensions.CsrfExtension',
                   'django_jinja.builtins.extensions.StaticFilesExtension',
                   'django_jinja.builtins.extensions.DjangoFiltersExtension',
-                  'puente.ext.PuenteI18nExtension',
+                  'puente.ext.i18n',
               ]
           }
       }
@@ -278,7 +278,7 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
                    # ...
                    'extensions': [
                        # ...
-                       'puente.ext.PuenteI18nExtension',
+                       'puente.ext.i18n',
                        # ...
                    ],
               }
@@ -294,7 +294,7 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
          'JINJA_CONFIG': {
             'extensions': [
                 # ...
-                'puente.ext.PuenteI18nExtension',
+                'puente.ext.i18n',
                 # ...
             ],
             'silent': 'False'

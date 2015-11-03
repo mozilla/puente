@@ -52,7 +52,7 @@ TEMPLATES = [
                 'django_jinja.builtins.extensions.CsrfExtension',
                 'django_jinja.builtins.extensions.StaticFilesExtension',
                 'django_jinja.builtins.extensions.DjangoFiltersExtension',
-                'puente.ext.PuenteI18nExtension',
+                'puente.ext.i18n',
             ]
         }
     },

@@ -46,10 +46,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 def JINJA_CONFIG():
     config = {
         'extensions': [
+            # Need this even though Puente's i18n extension stomps on it
+            # because otherwise Jingo doesn't work right.
+            'jinja2.ext.i18n',
             'jinja2.ext.with_',
             'jinja2.ext.loopcontrols',
             'jinja2.ext.autoescape',
-            'puente.ext.PuenteI18nExtension',
+            'puente.ext.i18n',
         ],
         'finalize': lambda x: x if x is not None else ''
     }

@@ -5,10 +5,10 @@ from puente.utils import collapse_whitespace
 
 
 @jinja2.contextfunction
-def _gettext_alias(context, text, *args, **kwargs):
+def _gettext_alias(__context, *args, **kwargs):
     """Marks result of gettext as 'safe'"""
     return jinja2.Markup(
-        context.resolve('gettext')(context, text, *args, **kwargs)
+        __context.call(__context.resolve('gettext'), *args, **kwargs)
     )
 
 
@@ -35,3 +35,6 @@ class PuenteI18nExtension(InternationalizationExtension):
         parse_block = InternationalizationExtension._parse_block
         ref, buffer = parse_block(self, parser, allow_pluralize)
         return ref, collapse_whitespace(buffer)
+
+
+i18n = PuenteI18nExtension

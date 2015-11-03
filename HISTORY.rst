@@ -7,7 +7,10 @@ History
 0.3 (in development)
 ====================
 
-FIXME
+* add "Translators:" to the translator prefix list (#34)
+* make ``puente.ext.i18n`` be an alias for ``puente.ext.PuenteI18nExtension``
+* fix the gettext alias to be moar korrect (#35)
+* fix the jingo-related docs in regards to extensions (#35)
 
 
 0.2 (October 30th, 2015)

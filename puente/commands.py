@@ -191,6 +191,18 @@ def merge_command(create, base_dir, standalone_domains, languages):
     if not call(['which', 'msgmerge'], stdout=PIPE) == 0:
         raise CommandError('You do not have gettext installed.')
 
+    if languages and isinstance(languages[0], (tuple, list)):
+        # Django's LANGUAGES setting takes a value like:
+        #
+        # LANGUAGES = (
+        #    ('de', _('German')),
+        #    ('en', _('English')),
+        # )
+        #
+        # but we only want the language codes, so we pull the first
+        # part from all the tuples.
+        languages = [lang[0] for lang in languages]
+
     if create:
         for lang in languages:
             d = os.path.join(locale_dir, lang.replace('-', '_'),

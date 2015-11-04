@@ -1,12 +1,24 @@
+from django.utils.translation import ugettext_lazy as _lazy
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
-SECRET_KEY = 'test secret key'
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'v7g9ndb41b=h!w)yg&$-yja7!*&yjjv$ps&hh$i(xxm4g#jl3^'
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+TEMPLATE_DEBUG = True
+
 ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -17,10 +29,20 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'puente'
+    'puente',
+
+    'test_project.base'
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
 
 ROOT_URLCONF = 'test_project.urls'
+
+WSGI_APPLICATION = 'test_project.wsgi.application'
 
 TEMPLATE_LOADERS = (
     'jingo.Loader',
@@ -77,18 +99,28 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-US'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+LANGUAGES = (
+    ('xx', _lazy('Shouty')),
+    ('en-US', _lazy('English')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
 PUENTE = {
     'BASE_DIR': BASE_DIR,
     'DOMAIN_METHODS': {
         'django': [
-            ('jinja2/*.html', 'jinja2'),
-            ('*.py', 'python'),
+            ('**/templates/admin/**.html', 'django'),
+            ('**/templates/**.html', 'jinja2'),
+            ('**.py', 'python'),
         ]
     }
 }

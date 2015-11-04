@@ -21,6 +21,7 @@ pip-log.txt
 .cache
 
 # Translations
+locale/
 *.mo
 
 # Sphinx

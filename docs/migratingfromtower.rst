@@ -52,8 +52,76 @@ to do something like the following to switch to Puente.
       from django.utils.translation import ugettext as _
 
 
+   You'll encounter two possible issues here:
+
+   1. If you have consecutive sequences of whitespace in your gettext
+      strings, then the msgids will change.
+
+      For example:
+
+      .. code-block:: python
+
+         from tower import ugettext as _
+         _('this string has    whitespace')
+
+
+      Tower collapses whitespace in all gettext strings, so that turns
+      into ``"this string has whitespace"``.
+
+      When you switch that to Django's ugettext, then the msgid being
+      used to look up the translation will have whitespace in it which
+      won't match Tower's string extraction and thus your strings could
+      be translated in the ``.po`` file, but won't show up as translated
+      on the site.
+
+      You'll need to fix that in the string so the resulting code should
+      look like this:
+
+      .. code-block:: python
+
+         from django.utils.translation import ugettext as _
+         _('this string has whitespace')
+
+
+      That way the msgid generated during extraction is the same as
+      the one that's generated when rendering and that's the same as the
+      string the translator translated, so everything should work super.
+
+      Definitely check the msgids after doing this to make sure they're
+      the same and fix any issues you see.
+
+   2. Tower's gettext and ngettext supported msgctxt as a separate
+      argument.
+
+      For example:
+
+      .. code-block:: python
+
+         from tower import ugettext as _
+         _('File', 'menu')
+         _('File', context='menu')
+
+
+      You'll need to switch these to the Django pgettext calls:
+
+      .. code-block:: python
+
+         from django import pgettext
+         pgettext('menu', 'File')
+
+
+      Note that the arguments are reversed!
+
+      https://docs.djangoproject.com/en/1.8/ref/utils/#django.utils.translation.pgettext
+
+      If your test suite covers all code paths that have gettext calls,
+      then you can run your test suite and it should error out because
+      Tower's gettext and ngettext had an extra argument that Django's
+      do not.
+
+
    At the end of this step, you do not want to be using Tower's gettext stuff at
-   all.
+   all and none of your msgids should have changed.
 
 7. Fix strings from non-trans-blocks that had whitespace in them in your code.
 

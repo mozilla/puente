@@ -127,26 +127,19 @@ to do something like the following to switch to Puente.
          the mood?
 
 
-   At the end of this step, you do not want to be using Tower's gettext stuff at
+   At the end of this step, you do not want to be using Tower's gettext at
    all and none of your msgids should have changed.
 
-7. Fix strings from non-trans-blocks that had whitespace in them in your code.
-
-   Puente only collapses whitespace for ``trans`` blocks--it no longer collapses
-   whitespace for all things. Given that, you want to fix your original strings
-   so that the msgids don't change which will create extra work for translators.
-
-   After you've done step 5, you can run:
+   You can tell whether msgids have changed by running:
 
    .. code-block:: bash
 
-     ./manage.py extract
+      ./manage.py extract
 
-   and see which msgids changed, then go fix those.
 
-   Generally, you want to switch from Tower to Puente with zero msgid changes.
+   And diffing the results.
 
-8. Switch from Tower to Puente.
+7. Switch from Tower to Puente.
 
    Puente works with Django 1.7 and Jingo 0.7.1. It also works with Django 1.8+
    and django-jinja. It probably works with other Django Jinja2 template

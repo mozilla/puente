@@ -189,3 +189,21 @@ to do something like the following to switch to Puente.
 
       If you have a more complex Tower configuration than that, hop on
       ``#puente`` on ``irc.mozilla.org`` and we'll work it out.
+
+   4. Add the code to install ugettext/ungettext into the Jinja environment.
+
+      Jingo installs gettext/ngettext functions that don't do anything. You
+      will need to install Django's gettext/ngettext functions into the
+      environment.
+
+      Calling this during webapp bootstrap will fix that:
+
+      .. code-block:: python
+
+         def install_jinja_translations():
+             """Install gettext functions into Jingo's Jinja2 environment"""
+             from django.utils import translation
+
+             import jingo
+             jingo.env.install_gettext_translations(translation, newstyle=True)
+

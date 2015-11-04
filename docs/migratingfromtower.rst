@@ -62,16 +62,18 @@ to do something like the following to switch to Puente.
       .. code-block:: python
 
          from tower import ugettext as _
-         _('this string has    whitespace')
+         _('knock knock.    who is there?')
 
 
       Tower collapses whitespace in all gettext strings, so that turns
-      into ``"this string has whitespace"``.
+      into ``"knock knock. who is there?"``.
 
-      When you switch that to Django's ugettext, then the msgid being
-      used to look up the translation will have whitespace in it which
-      won't match Tower's string extraction and thus your strings could
-      be translated in the ``.po`` file, but won't show up as translated
+      When you switch that to Django's ugettext, then you're using Tower
+      for extraction, but Django's ugettext to look up the translation.
+      Because Django's ugettext doesn't collapse whitespace, the msgid
+      being used to look up the translation will have all the whitespace
+      in it which won't match the msgid in the ``.po`` file and thus
+      even though the strings are translated, they won't show up as translated
       on the site.
 
       You'll need to fix that in the string so the resulting code should
@@ -80,7 +82,7 @@ to do something like the following to switch to Puente.
       .. code-block:: python
 
          from django.utils.translation import ugettext as _
-         _('this string has whitespace')
+         _('knock knock. who is there?')
 
 
       That way the msgid generated during extraction is the same as
@@ -98,8 +100,8 @@ to do something like the following to switch to Puente.
       .. code-block:: python
 
          from tower import ugettext as _
-         _('File', 'menu')
-         _('File', context='menu')
+         _('Orange', 'joke response')
+         _('Orange', context='joke response')
 
 
       You'll need to switch these to the Django pgettext calls:
@@ -107,8 +109,10 @@ to do something like the following to switch to Puente.
       .. code-block:: python
 
          from django import pgettext
-         pgettext('menu', 'File')
+         pgettext('joke response', 'Orange')
 
+
+      [#]_
 
       Note that the arguments are reversed!
 
@@ -118,6 +122,9 @@ to do something like the following to switch to Puente.
       then you can run your test suite and it should error out because
       Tower's gettext and ngettext had an extra argument that Django's
       do not.
+
+      .. [#] Orange who? Orange you glad this example was here to lighten
+         the mood?
 
 
    At the end of this step, you do not want to be using Tower's gettext stuff at

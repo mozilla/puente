@@ -33,7 +33,7 @@ Release process
 
 7. Update PyPI::
 
-       $ rm -rf dist/*
+       $ make clean
        $ python setup.py sdist bdist_wheel
        $ twine upload dist/*
 

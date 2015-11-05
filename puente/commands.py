@@ -93,7 +93,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
     # Create the outputdir if it doesn't exist
     outputdir = os.path.abspath(outputdir)
     if not os.path.isdir(outputdir):
-        print 'Creating output dir %s ...' % outputdir
+        print('Creating output dir %s ...' % outputdir)
         os.makedirs(outputdir)
 
     # Figure out what domains to extract
@@ -104,11 +104,11 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
 
     def callback(filename, method, options):
         if method != 'ignore':
-            print '  %s' % filename
+            print('  %s' % filename)
 
     # Extract string for each domain
     for domain in domains:
-        print 'Extracting all strings in domain %s...' % (domain)
+        print('Extracting all strings in domain %s...' % domain)
 
         methods = domain_methods[domain]
 
@@ -132,7 +132,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
             catalog.add(msg, None, [(filename, lineno)], auto_comments=cmts,
                         context=ctxt)
 
-        with open(os.path.join(outputdir, '%s.pot' % domain), 'w') as fp:
+        with open(os.path.join(outputdir, '%s.pot' % domain), 'wb') as fp:
             write_po(fp, catalog, width=80)
 
     not_standalone_domains = [
@@ -146,8 +146,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
 
     if len(pot_files) > 1:
         pot_file = text_domain + '.pot'
-        print ('Concatenating the non-standalone domains into %s' %
-               pot_file)
+        print('Concatenating the non-standalone domains into %s' % pot_file)
 
         final_out = os.path.join(outputdir, pot_file)
 
@@ -170,7 +169,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
         for dom in not_standalone_domains:
             os.remove(os.path.join(outputdir, '%s.pot' % dom))
 
-    print 'Done'
+    print('Done')
 
 
 def merge_command(create, base_dir, standalone_domains, languages):
@@ -211,7 +210,7 @@ def merge_command(create, base_dir, standalone_domains, languages):
                 os.makedirs(d)
 
     for domain in standalone_domains:
-        print 'Merging %s strings to each locale...' % domain
+        print('Merging %s strings to each locale...' % domain)
         domain_pot = os.path.join(locale_dir, 'templates', 'LC_MESSAGES',
                                   '%s.pot' % domain)
         if not os.path.isfile(domain_pot):
@@ -227,7 +226,7 @@ def merge_command(create, base_dir, standalone_domains, languages):
                                      '%s.po' % domain)
 
             if not os.path.isfile(domain_po):
-                print ' Can not find (%s).  Creating...' % (domain_po)
+                print(' Can not find (%s).  Creating...' % domain_po)
                 p1 = Popen([
                     'msginit',
                     '--no-translator',
@@ -238,7 +237,7 @@ def merge_command(create, base_dir, standalone_domains, languages):
                 ])
                 p1.communicate()
 
-            print 'Merging %s.po for %s' % (domain, locale)
+            print('Merging %s.po for %s' % (domain, locale))
 
             domain_pot_file = open(domain_pot)
 
@@ -262,6 +261,6 @@ def merge_command(create, base_dir, standalone_domains, languages):
             p3 = Popen(command, stdin=mergeme)
             p3.communicate()
             mergeme.close()
-        print 'Domain %s finished' % domain
+        print('Domain %s finished' % domain)
 
-    print 'All finished'
+    print('All finished')

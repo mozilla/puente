@@ -11,6 +11,9 @@ History
 * make ``puente.ext.i18n`` be an alias for ``puente.ext.PuenteI18nExtension``
 * fix the gettext alias to be moar korrect (#35)
 * fix the jingo-related docs in regards to extensions (#35)
+* lots of changes to the Migrating from Tower document
+* fleshed out ``test_project_jingo`` so we can use it for development
+* fixed merge to handle ``LANGUAGES`` setting correctly
 
 
 0.2 (October 30th, 2015)

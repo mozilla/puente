@@ -4,6 +4,8 @@ puente
 
 **This is an experiment. Don't use this, yet.**
 
+.. image:: puente_logo.jpg
+
 Puente is a Python library that handles l10n things for Django projects
 using Jinja2 templates.
 

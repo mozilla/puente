@@ -207,3 +207,4 @@ to do something like the following to switch to Puente.
              import jingo
              jingo.env.install_gettext_translations(translation, newstyle=True)
 
+   5. When you push the update, make sure to nix your Jinja2 template cache.

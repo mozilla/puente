@@ -11,7 +11,6 @@ Activate your virtual environment, then do:
 
   $ pip install puente
 
-FIXME: This is a lie until we get it into PyPI.
 
 **Optional:** If you want to extract strings from Django templates, you will
 also need to install django-babel which has an extractor for Django templates:

@@ -13,7 +13,7 @@ using Jinja2 templates.
   files
 * code to collapse whitespace for Jinja2's trans block
 * code to mark all gettext output as safe in templates
-* configured using with Django settings
+* configured using Django settings
 * solid documentation
 * solid tests
 

@@ -2,8 +2,6 @@
 puente
 ======
 
-**This is an experiment. Don't use this, yet.**
-
 .. image:: puente_logo.jpg
 
 Puente is a Python library that handles l10n things for Django projects
@@ -15,8 +13,9 @@ using Jinja2 templates.
   files
 * code to collapse whitespace for Jinja2's trans block
 * code to mark all gettext output as safe in templates
-* driven from Django settings
+* configured using with Django settings
 * solid documentation
+* solid tests
 
 This is derived from `Tower <https://github.com/clouserw/tower>`_, but heavily
 changed.
@@ -58,4 +57,4 @@ Run::
 Usage
 =====
 
-See documentation for configuration and usage.
+See `documentation <https://puente.readthedocs.org/>` for configuration and usage.

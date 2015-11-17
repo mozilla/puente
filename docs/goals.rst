@@ -116,8 +116,14 @@ We need to do the following before we can end Puente:
 
    https://github.com/mitsuhiko/jinja2/issues/504
 
-2. Need to figure out what to do about making gettext output safe for
-   Jinja2 templates by default.
+2. IN PROGRESS: Ditch the code that marks all gettext output as safe in Jinja2
+   templates. The Jinja2 default is that it's unsafe and requires `|safe` to
+   be marked as safe. That's a better default.
+
+   One thing we should do is write up a document covering how to use gettext
+   and filters to achieve what you want in regards to translations, variable
+   interpolation and escaping. I think that'd be a good thing to have and
+   it would alleviate any problems that come from removing this code.
 
 3. Puente's extract command should work more like Babel's pybabel extract
    command.

@@ -24,5 +24,8 @@ pip-log.txt
 locale/
 *.mo
 
+# Test project sqlite3 databases
+*.sqlite3
+
 # Sphinx
 docs/_build

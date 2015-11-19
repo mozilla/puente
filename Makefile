@@ -11,17 +11,20 @@ help:
 	@echo "release - package and upload a release"
 	@echo "sdist - package"
 
-clean: clean-build clean-pyc
+clean: clean-build clean-pyc clean-docs
 
 clean-build:
-	rm -fr build/
-	rm -fr dist/
-	rm -fr *.egg-info
+	rm -rf build/
+	rm -rf dist/
+	rm -rf *.egg-info
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
+
+clean-docs:
+	rm -rf docs/_build/
 
 lint:
 	flake8 puente tests

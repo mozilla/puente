@@ -46,6 +46,7 @@ then it might look like this:
            # ...
            'OPTIONS': {
                 # ...
+                'autoescape': True,
                 'extensions': [
                     # ...
                     'puente.ext.i18n',
@@ -242,8 +243,6 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
 
       PUENTE = {
           'JINJA2_CONFIG`: {
-              'autoescape': True,
-              'newstyle_gettext': True,
               'extensions': [
                   'jinja2.ext.do',
                   'jinja2.ext.loopcontrols',

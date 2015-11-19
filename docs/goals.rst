@@ -32,7 +32,7 @@ Why not just use Babel?
 Puente does three nice things:
 
 1. makes it easy to migrate from Tower to something you can use with Django 1.8
-2. collapses whitespace in Jinja2 trans blocks and marks gettext output as safe
+2. collapses whitespace in Jinja2 trans blocks
 3. pulls bits from Django settings to configure extraction (e.g. Jinja2
    extensions)
 
@@ -79,29 +79,33 @@ What's different between Tower and Puente?
    calls, but Puente relies on Django's pgettext functions and Babel's
    msgctxt support and that works super.
 
-4. Tower used translate-toolkit to build the ``.pot`` file, but Puente uses
+4. Tower had its own gettext and ngettext that marked output as safe, but Puente
+   drops that because it's unneeded if you're using Jinja2's newstyle gettext
+   and autoescape enabled.
+
+5. Tower used translate-toolkit to build the ``.pot`` file, but Puente uses
    Babel for putting together the ``.pot`` file. Thus we don't need
    translate-toolkit anymore.
 
-5. Tower required Jingo, but Puente supports Jingo, django-jinja and other
+6. Tower required Jingo, but Puente supports Jingo, django-jinja and other
    Jinja2 template environments.
 
-6. Tower only supports Django 1.7 and lower versions and Puente only supports
+7. Tower only supports Django 1.7 and lower versions and Puente only supports
    Django 1.7+.
 
-7. Tower supports Python 2.6 and 2.7, but Puente supports 2.7. Hopefully Python
+8. Tower supports Python 2.6 and 2.7, but Puente supports 2.7. Hopefully Python
    3 in the near future.
 
-8. Tower has most of the code in ``__init__.py``, but Puente tries to be easier
+9. Tower has most of the code in ``__init__.py``, but Puente tries to be easier
    to use so you can import it without problems.
 
-9. Tower uses nose for tests, but Puente uses py.test.
+10. Tower uses nose for tests, but Puente uses py.test.
 
-   This is purely because I stopped using nose on my projects. Generally, I find
-   py.test easier to set up and use these days. I don't want to change this
-   unless there's a compelling reason. Generally, if you were maintaining the
-   project, I'd encourage you to use whichever test framework works best for
-   you.
+    This is purely because I stopped using nose on my projects. Generally, I find
+    py.test easier to set up and use these days. I don't want to change this
+    unless there's a compelling reason. Generally, if you were maintaining the
+    project, I'd encourage you to use whichever test framework works best for
+    you.
 
 
 Current status of phasing Puente out
@@ -116,16 +120,7 @@ We need to do the following before we can end Puente:
 
    https://github.com/mitsuhiko/jinja2/issues/504
 
-2. IN PROGRESS: Ditch the code that marks all gettext output as safe in Jinja2
-   templates. The Jinja2 default is that it's unsafe and requires `|safe` to
-   be marked as safe. That's a better default.
-
-   One thing we should do is write up a document covering how to use gettext
-   and filters to achieve what you want in regards to translations, variable
-   interpolation and escaping. I think that'd be a good thing to have and
-   it would alleviate any problems that come from removing this code.
-
-3. Puente's extract command should work more like Babel's pybabel extract
+2. Puente's extract command should work more like Babel's pybabel extract
    command.
 
    The way forward is to phase Puente out for pybabel. In order to make that
@@ -133,11 +128,11 @@ We need to do the following before we can end Puente:
 
    This should probably be broken up into more steps as we discover differences.
 
-4. Ditch Puente's merge for pybabel's update?
+3. Ditch Puente's merge for pybabel's update?
 
-5. Need a nice way to use Django settings for pybabel configuration. For
+4. Need a nice way to use Django settings for pybabel configuration. For
    example, I'd rather not have to define the list of Jinja2 extensions to use
    in two places.
 
-6. Is there anything else?
+5. Is there anything else?
 

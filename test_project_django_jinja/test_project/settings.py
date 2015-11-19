@@ -41,6 +41,7 @@ TEMPLATES = [
             # Don't figure out which template loader to use based on
             # file extension
             'match_extension': '',
+            'autoescape': True,
             'newstyle_gettext': True,
             'context_processors': _CONTEXT_PROCESSORS,
             'undefined': 'jinja2.Undefined',

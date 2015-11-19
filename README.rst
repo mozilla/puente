@@ -12,7 +12,6 @@ using Jinja2 templates.
 * merge command that merges new strings from a ``.pot`` file into locale ``.po``
   files
 * code to collapse whitespace for Jinja2's trans block
-* code to mark all gettext output as safe in templates
 * configured using Django settings
 * solid documentation
 * solid tests

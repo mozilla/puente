@@ -168,7 +168,7 @@ def merge_command(create, base_dir, domain_methods, languages):
 
     domains = domain_methods.keys()
     for domain in domains:
-        print 'Merging %s strings to each locale...' % domain
+        print('Merging %s strings to each locale...' % domain)
         domain_pot = os.path.join(locale_dir, 'templates', 'LC_MESSAGES',
                                   '%s.pot' % domain)
         if not os.path.isfile(domain_pot):

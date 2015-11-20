@@ -32,4 +32,3 @@ Contributors to Tower
 * Thijs Triemstra
 * Wil Clouser
 * Will Kahn-Greene
-

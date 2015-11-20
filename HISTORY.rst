@@ -4,6 +4,16 @@
 History
 =======
 
+0.4 (November 20th, 2015)
+=========================
+
+* Implement pgettext and npgettext (#45)
+* Remove undocumented STANDALONE_DOMAINS setting and fix extract/merge code (#44)
+* Add ngettext tests
+* Rework gettext code, clarify documentation and add tests (#42)
+* Project infrastructure fixes
+
+
 0.3 (November 5th, 2015)
 ========================
 

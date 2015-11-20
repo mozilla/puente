@@ -1,5 +1,4 @@
 import os
-import tempfile
 from subprocess import PIPE, Popen, call
 from tempfile import TemporaryFile
 
@@ -10,9 +9,6 @@ from django.conf import settings
 from django.core.management.base import CommandError
 
 from puente.utils import monkeypatch_i18n
-
-
-DEFAULT_DOMAIN_VALUE = 'all'
 
 
 def generate_options_map():
@@ -68,16 +64,15 @@ def generate_options_map():
     )
 
 
-def extract_command(domain, outputdir, domain_methods, standalone_domains,
-                    text_domain, keywords, comment_tags, base_dir,
-                    project, version, msgid_bugs_address):
+def extract_command(outputdir, domain_methods, text_domain, keywords,
+                    comment_tags, base_dir, project, version,
+                    msgid_bugs_address):
     """Extracts strings into .pot files
 
     :arg domain: domains to generate strings for or 'all' for all domains
     :arg outputdir: output dir for .pot files; usually
         locale/templates/LC_MESSAGES/
     :arg domain_methods: DOMAIN_METHODS setting
-    :arg standalone_domains: STANDALONE_DOMAINS setting
     :arg text_domain: TEXT_DOMAIN settings
     :arg keywords: KEYWORDS setting
     :arg comment_tags: COMMENT_TAGS setting
@@ -96,11 +91,7 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
         print('Creating output dir %s ...' % outputdir)
         os.makedirs(outputdir)
 
-    # Figure out what domains to extract
-    if domain == DEFAULT_DOMAIN_VALUE:
-        domains = domain_methods.keys()
-    else:
-        domains = [domain]
+    domains = domain_methods.keys()
 
     def callback(filename, method, options):
         if method != 'ignore':
@@ -135,49 +126,15 @@ def extract_command(domain, outputdir, domain_methods, standalone_domains,
         with open(os.path.join(outputdir, '%s.pot' % domain), 'wb') as fp:
             write_po(fp, catalog, width=80)
 
-    not_standalone_domains = [
-        dom for dom in domains
-        if dom not in standalone_domains
-    ]
-
-    pot_files = []
-    for dom in not_standalone_domains:
-        pot_files.append(os.path.join(outputdir, '%s.pot' % dom))
-
-    if len(pot_files) > 1:
-        pot_file = text_domain + '.pot'
-        print('Concatenating the non-standalone domains into %s' % pot_file)
-
-        final_out = os.path.join(outputdir, pot_file)
-
-        # We add final_out back on because msgcat will combine all
-        # specified files.  We'll redirect everything back in to
-        # final_out in a minute.
-        pot_files.append(final_out)
-
-        meltingpot = tempfile.TemporaryFile()
-        p1 = Popen(['msgcat'] + pot_files, stdout=meltingpot)
-        p1.communicate()
-        meltingpot.seek(0)
-
-        # w+ truncates the file first
-        with open(final_out, 'w+') as final:
-            final.write(meltingpot.read())
-
-        meltingpot.close()
-
-        for dom in not_standalone_domains:
-            os.remove(os.path.join(outputdir, '%s.pot' % dom))
-
     print('Done')
 
 
-def merge_command(create, base_dir, standalone_domains, languages):
+def merge_command(create, base_dir, domain_methods, languages):
     """
     :arg create: whether or not to create directories if they don't
         exist
     :arg base_dir: BASE_DIR setting
-    :arg standalone_domains: STANDALONE_DOMAINS setting
+    :arg domain_methods: DOMAIN_METHODS setting
     :arg languages: LANGUAGES setting
 
     """
@@ -209,8 +166,9 @@ def merge_command(create, base_dir, standalone_domains, languages):
             if not os.path.exists(d):
                 os.makedirs(d)
 
-    for domain in standalone_domains:
-        print('Merging %s strings to each locale...' % domain)
+    domains = domain_methods.keys()
+    for domain in domains:
+        print 'Merging %s strings to each locale...' % domain
         domain_pot = os.path.join(locale_dir, 'templates', 'LC_MESSAGES',
                                   '%s.pot' % domain)
         if not os.path.isfile(domain_pot):

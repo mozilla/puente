@@ -182,7 +182,6 @@ to do something like the following to switch to Puente.
                  ('**.js', 'javascript')
              ]
          }
-         STANDALONE_DOMAINS = ['django']
 
 
       The equivalent Puente configuration is something like this:

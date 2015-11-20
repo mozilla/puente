@@ -7,12 +7,6 @@ TEXT_DOMAIN = 'django'
 # Keywords indicating gettext calls
 KEYWORDS = generate_keywords()
 
-# By default, all the domains you speficy will be merged into one big django.po
-# file. If you want to separate a domain from the main .po file, specify it in
-# this list. Make sure to include TEXT_DOMAIN in this list, even if you have
-# other .po files you're generating
-STANDALONE_DOMAINS = [TEXT_DOMAIN]
-
 # Prefixes that indicate a comment tag intended for localizers
 COMMENT_TAGS = ['L10n:', 'L10N:', 'l10n:', 'l10N:', 'Translators:']
 

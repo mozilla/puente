@@ -67,6 +67,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 def JINJA_CONFIG():
     config = {
+        'autoescape': False,
         'extensions': [
             # Need this even though Puente's i18n extension stomps on it
             # because otherwise Jingo doesn't work right.

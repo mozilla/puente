@@ -139,7 +139,24 @@ to do something like the following to switch to Puente.
 
    And diffing the results.
 
-7. Switch from Tower to Puente.
+7. Make sure ``autoescape=True`` in your Jinja2 environment.
+
+   In your Django settings, ``JINJA_CONFIG`` should have this:
+
+   .. code-block:: python
+
+      JINJA_CONFIG = {
+          'autoescape': True,
+          # ...
+      }
+
+
+   .. Warning::
+
+      Switching autoescape may cause strings with HTML in them to change. If
+      that happens, you can use the ``|safe`` filter to undo the escaping.
+
+8. Switch from Tower to Puente.
 
    Puente works with Django 1.7 and Jingo 0.7.1. It also works with Django 1.8+
    and django-jinja. It probably works with other Django Jinja2 template
@@ -206,5 +223,13 @@ to do something like the following to switch to Puente.
 
              import jingo
              jingo.env.install_gettext_translations(translation, newstyle=True)
+
+
+      .. Warning::
+
+         Note that Tower does **NOT** use Jinja2's newstyle gettext. In this
+         step, you need to switch to the newstyle gettext since the combination
+         of newstyle gettext and autoescape=True will give you the correct
+         output for gettext functions.
 
    5. When you push the update, make sure to nix your Jinja2 template cache.

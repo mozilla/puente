@@ -59,6 +59,54 @@ class TestPuenteI18nExtension:
         tmpl = '{% autoescape False %}{{ _("<b>{0}</b>").format("<i>bar</i>") }}{% endautoescape %}'
         assert render(tmpl) == '<b><i>bar</i></b>'
 
+    def test_ngettext(self):
+        """ngettext works"""
+        tmpl = '{{ ngettext("one thing", "multiple things", 1) }}'
+        assert render(tmpl) == 'one thing'
+        tmpl = '{{ ngettext("one thing", "multiple things", 2) }}'
+        assert render(tmpl) == 'multiple things'
+
+    def test_ngettext_is_safe(self):
+        """ngettext is safe"""
+        tmpl = '{{ ngettext("<b>one thing</b>", "<b>multiple things</b>", 1) }}'
+        assert render(tmpl) == '<b>one thing</b>'
+        tmpl = '{{ ngettext("<b>one thing</b>", "<b>multiple things</b>", 2) }}'
+        assert render(tmpl) == '<b>multiple things</b>'
+
+    def test_ngettext_variable_num(self):
+        """ngettext has an implicit num variable"""
+        tmpl = '{{ ngettext("<b>%(num)s foo</b>", "<b>%(num)s foos</b>", 1) }}'
+        assert render(tmpl) == '<b>1 foo</b>'
+        tmpl = '{{ ngettext("<b>%(num)s foo</b>", "<b>%(num)s foos</b>", 2) }}'
+        assert render(tmpl) == '<b>2 foos</b>'
+
+    def test_ngettext_variable_values_notsafe(self):
+        """ngettext variable values are not safe"""
+        tmpl = '{{ ngettext("<b>one %(foo)s</b>", "<b>multiple %(foo)s</b>", 1, foo="<i>bar</i>") }}'
+        assert render(tmpl) == '<b>one &lt;i&gt;bar&lt;/i&gt;</b>'
+        tmpl = '{{ ngettext("<b>one %(foo)s</b>", "<b>multiple %(foo)s</b>", 2, foo="<i>bar</i>") }}'
+        assert render(tmpl) == '<b>multiple &lt;i&gt;bar&lt;/i&gt;</b>'
+
+    def test_ngettext_variable_value_marked_safe_is_safe(self):
+        tmpl = '{{ ngettext("<b>one %(foo)s</b>", "<b>multiple %(foo)s</b>", 1, foo="<i>bar</i>"|safe) }}'
+        assert render(tmpl) == '<b>one <i>bar</i></b>'
+        tmpl = '{{ ngettext("<b>one %(foo)s</b>", "<b>multiple %(foo)s</b>", 2, foo="<i>bar</i>"|safe) }}'
+        assert render(tmpl) == '<b>multiple <i>bar</i></b>'
+
+    def test_ngettext_variable_values_autoescape_false(self):
+        tmpl = (
+            '{% autoescape False %}'
+            '{{ ngettext("<b>one %(foo)s</b>", "<b>multiple %(foo)s</b>", 1, foo="<i>bar</i>") }}'
+            '{% endautoescape %}'
+        )
+        assert render(tmpl) == '<b>one <i>bar</i></b>'
+        tmpl = (
+            '{% autoescape False %}'
+            '{{ ngettext("<b>one %(foo)s</b>", "<b>multiple %(foo)s</b>", 2, foo="<i>bar</i>") }}'
+            '{% endautoescape %}'
+        )
+        assert render(tmpl) == '<b>multiple <i>bar</i></b>'
+
     def test_trans(self):
         tmpl = '<div>{% trans %}puente rules!{% endtrans %}</div>'
         assert render(tmpl) == '<div>puente rules!</div>'

@@ -38,7 +38,7 @@ class Command(BaseCommand):
         return merge_command(
             create=options.get('create'),
             base_dir=get_setting('BASE_DIR'),
-            standalone_domains=get_setting('STANDALONE_DOMAINS'),
+            domain_methods=get_setting('DOMAIN_METHODS'),
             languages=getattr(settings, 'LANGUAGES', [])
         )
 

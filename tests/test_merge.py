@@ -8,7 +8,6 @@ from django.core.management import CommandError
 from django.test import TestCase
 
 from puente.commands import merge_command
-from puente.settings import get_setting
 
 
 class TestManageMerge(TestCase):
@@ -67,7 +66,12 @@ class TestMergecommand:
         merge_command(
             create=True,
             base_dir=str(tmpdir),
-            standalone_domains=get_setting('STANDALONE_DOMAINS'),
+            domain_methods={
+                'django': [
+                    ('*.py', 'python'),
+                    ('*.html', 'jinja2'),
+                ]
+            },
             languages=['de', 'en-US', 'fr']
         )
 
@@ -80,6 +84,11 @@ class TestMergecommand:
             merge_command(
                 create=True,
                 base_dir=str(tmpdir),
-                standalone_domains=get_setting('STANDALONE_DOMAINS'),
+                domain_methods={
+                    'django': [
+                        ('*.py', 'python'),
+                        ('*.html', 'jinja2'),
+                    ]
+                },
                 languages=['de', 'en-US', 'fr']
             )

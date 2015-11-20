@@ -41,7 +41,6 @@ class TestExtractCommand:
 
         # Extract
         extract_command(
-            domain='all',
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
@@ -49,7 +48,6 @@ class TestExtractCommand:
                     ('*.html', 'jinja2'),
                 ]
             },
-            standalone_domains=puente_settings.STANDALONE_DOMAINS,
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
@@ -83,7 +81,6 @@ class TestExtractCommand:
     def test_header(self, tmpdir):
         # Extract
         extract_command(
-            domain='all',
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
@@ -91,7 +88,6 @@ class TestExtractCommand:
                     ('*.html', 'jinja2'),
                 ]
             },
-            standalone_domains=puente_settings.STANDALONE_DOMAINS,
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
@@ -143,7 +139,6 @@ class TestExtractCommand:
 
         # Extract
         extract_command(
-            domain='all',
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
@@ -151,7 +146,6 @@ class TestExtractCommand:
                     ('*.html', 'jinja2'),
                 ]
             },
-            standalone_domains=puente_settings.STANDALONE_DOMAINS,
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
@@ -193,7 +187,6 @@ class TestExtractCommand:
 
         # Extract
         extract_command(
-            domain='all',
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
@@ -201,7 +194,6 @@ class TestExtractCommand:
                     ('*.html', 'jinja2'),
                 ]
             },
-            standalone_domains=puente_settings.STANDALONE_DOMAINS,
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
@@ -245,7 +237,6 @@ class TestExtractCommand:
 
         # Extract
         extract_command(
-            domain='all',
             outputdir=str(tmpdir),
             domain_methods={
                 'django': [
@@ -253,7 +244,6 @@ class TestExtractCommand:
                     ('*.html', 'jinja2'),
                 ]
             },
-            standalone_domains=puente_settings.STANDALONE_DOMAINS,
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,

@@ -342,6 +342,24 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
       }
 
 
+Templates
+=========
+
+We hope you're using Jinja2's newstyle gettext and ``autoescape = True``. If
+that's the case, then these docs will help:
+
+* `Jinja2 template i18n docs <http://jinja.pocoo.org/docs/dev/templates/#i18n>`_
+* `Jinja2 template newstyle docs <http://jinja.pocoo.org/docs/dev/extensions/#newstyle-gettext>`_
+
+Further, Puente adds support for ``pgettext`` and ``npgettext`` in templates::
+
+    {{ pgettext("some context", "message string") }}
+    {{ npgettext("some context", "singular message", "plural message", 5) }}
+
+
+FIXME: Expand on this and talk about escaping and ``|safe``.
+
+
 Extract and merge usage
 =======================
 

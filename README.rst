@@ -12,6 +12,8 @@ using Jinja2 templates.
 * merge command that merges new strings from a ``.pot`` file into locale ``.po``
   files
 * code to collapse whitespace for Jinja2's trans block
+* add pgettext and npgettext to template environment and they correctly
+  escape things and work the same way as Jinja2's newstyle gettext
 * configured using Django settings
 * solid documentation
 * solid tests

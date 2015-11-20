@@ -33,7 +33,9 @@ Puente does three nice things:
 
 1. makes it easy to migrate from Tower to something you can use with Django 1.8
 2. collapses whitespace in Jinja2 trans blocks
-3. pulls bits from Django settings to configure extraction (e.g. Jinja2
+3. adds pgettext and npgettext to template environment that work like Jinja2's
+   newstyle gettext
+4. pulls bits from Django settings to configure extraction (e.g. Jinja2
    extensions)
 
 If you don't care about any of those things, go use Babel's pybabel command and
@@ -75,9 +77,11 @@ What's different between Tower and Puente?
    indentation of the HTML template. That stinks because translators have to go
    through and fix all the translations.
 
-3. Tower had a bunch of code to support msgctxt in extraction and gettext
-   calls, but Puente relies on Django's pgettext functions and Babel's
-   msgctxt support and that works super.
+3. Tower had a bunch of code to support msgctxt in extraction and gettext calls,
+   but Puente relies on Django's pgettext functions and Babel's msgctxt support
+   and that works super... except in Jinja2 templates. Puente adds pgettext and
+   npgettext to the template environment and they work just like Jinja2's
+   newstyle gettext.
 
 4. Tower had its own gettext and ngettext that marked output as safe, but Puente
    drops that because it's unneeded if you're using Jinja2's newstyle gettext
@@ -120,7 +124,11 @@ We need to do the following before we can end Puente:
 
    https://github.com/mitsuhiko/jinja2/issues/504
 
-2. Puente's extract command should work more like Babel's pybabel extract
+2. IN PROGRESS: Jinja2 needs to support pgettext/npgettext in templates.
+
+   https://github.com/mitsuhiko/jinja2/issues/441
+
+3. Puente's extract command should work more like Babel's pybabel extract
    command.
 
    The way forward is to phase Puente out for pybabel. In order to make that
@@ -128,11 +136,10 @@ We need to do the following before we can end Puente:
 
    This should probably be broken up into more steps as we discover differences.
 
-3. Ditch Puente's merge for pybabel's update?
+4. Ditch Puente's merge for pybabel's update?
 
-4. Need a nice way to use Django settings for pybabel configuration. For
+5. Need a nice way to use Django settings for pybabel configuration. For
    example, I'd rather not have to define the list of Jinja2 extensions to use
    in two places.
 
-5. Is there anything else?
-
+6. Is there anything else?

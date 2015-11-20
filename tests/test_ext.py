@@ -107,6 +107,74 @@ class TestPuenteI18nExtension:
         )
         assert render(tmpl) == '<b>multiple <i>bar</i></b>'
 
+    def test_pgettext(self):
+        tmpl = '{{ pgettext("context", "message") }}'
+        assert render(tmpl) == 'message'
+
+    def test_pgettext_is_safe(self):
+        tmpl = '{{ pgettext("context", "<b>foo</b>") }}'
+        assert render(tmpl) == '<b>foo</b>'
+
+    def test_pgettext_variable_value_notsafe(self):
+        tmpl = '{{ pgettext("context", "<b>%(foo)s</b>", foo="<i>bar</i>") }}'
+        assert render(tmpl) == '<b>&lt;i&gt;bar&lt;/i&gt;</b>'
+
+    def test_pgettext_variable_value_marked_safe_is_safe(self):
+        tmpl = '{{ pgettext("context", "<b>%(foo)s</b>", foo="<i>bar</i>"|safe) }}'
+        assert render(tmpl) == '<b><i>bar</i></b>'
+
+    def test_pgettext_variable_values_autoescape_false(self):
+        tmpl = (
+            '{% autoescape False %}'
+            '{{ pgettext("context", "<b>%(foo)s</b>", foo="<i>bar</i>") }}'
+            '{% endautoescape %}'
+        )
+        assert render(tmpl) == '<b><i>bar</i></b>'
+
+    def test_npgettext(self):
+        tmpl = '{{ npgettext("context", "sing", "plur", 1) }}'
+        assert render(tmpl) == "sing"
+        tmpl = '{{ npgettext("context", "sing", "plur", 2) }}'
+        assert render(tmpl) == "plur"
+
+    def test_npgettext_is_safe(self):
+        tmpl = '{{ npgettext("context", "<b>sing</b>", "<b>plur</b>", 1) }}'
+        assert render(tmpl) == "<b>sing</b>"
+        tmpl = '{{ npgettext("context", "<b>sing</b>", "<b>plur</b>", 2) }}'
+        assert render(tmpl) == "<b>plur</b>"
+
+    def test_npgettext_variable_num(self):
+        tmpl = '{{ npgettext("context", "<b>sing %(num)s</b>", "<b>plur %(num)s</b>", 1) }}'
+        assert render(tmpl) == "<b>sing 1</b>"
+        tmpl = '{{ npgettext("context", "<b>sing %(num)s</b>", "<b>plur %(num)s</b>", 2) }}'
+        assert render(tmpl) == "<b>plur 2</b>"
+
+    def test_npgettext_variable_values_notsafe(self):
+        tmpl = '{{ npgettext("context", "<b>sing %(foo)s</b>", "<b>plur %(foo)s</b>", 1, foo="<i>bar</i>") }}'
+        assert render(tmpl) == '<b>sing &lt;i&gt;bar&lt;/i&gt;</b>'
+        tmpl = '{{ npgettext("context", "<b>sing %(foo)s</b>", "<b>plur %(foo)s</b>", 2, foo="<i>bar</i>") }}'
+        assert render(tmpl) == '<b>plur &lt;i&gt;bar&lt;/i&gt;</b>'
+
+    def test_npgettext_variable_value_marked_safe_is_safe(self):
+        tmpl = '{{ npgettext("context", "<b>sing %(foo)s</b>", "<b>plur %(foo)s</b>", 1, foo="<i>bar</i>"|safe) }}'
+        assert render(tmpl) == '<b>sing <i>bar</i></b>'
+        tmpl = '{{ npgettext("context", "<b>sing %(foo)s</b>", "<b>plur %(foo)s</b>", 2, foo="<i>bar</i>"|safe) }}'
+        assert render(tmpl) == '<b>plur <i>bar</i></b>'
+
+    def test_npgettext_variable_values_autoescape_false(self):
+        tmpl = (
+            '{% autoescape False %}'
+            '{{ npgettext("context", "<b>sing %(foo)s</b>", "<b>plur %(foo)s</b>", 1, foo="<i>bar</i>") }}'
+            '{% endautoescape %}'
+        )
+        assert render(tmpl) == '<b>sing <i>bar</i></b>'
+        tmpl = (
+            '{% autoescape False %}'
+            '{{ npgettext("context", "<b>sing %(foo)s</b>", "<b>plur %(foo)s</b>", 2, foo="<i>bar</i>") }}'
+            '{% endautoescape %}'
+        )
+        assert render(tmpl) == '<b>plur <i>bar</i></b>'
+
     def test_trans(self):
         tmpl = '<div>{% trans %}puente rules!{% endtrans %}</div>'
         assert render(tmpl) == '<div>puente rules!</div>'

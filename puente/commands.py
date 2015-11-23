@@ -129,10 +129,11 @@ def extract_command(outputdir, domain_methods, text_domain, keywords,
     print('Done')
 
 
-def merge_command(create, base_dir, domain_methods, languages):
+def merge_command(create, backup, base_dir, domain_methods, languages):
     """
     :arg create: whether or not to create directories if they don't
         exist
+    :arg backup: whether or not to create backup .po files
     :arg base_dir: BASE_DIR setting
     :arg domain_methods: DOMAIN_METHODS setting
     :arg languages: LANGUAGES setting
@@ -213,6 +214,7 @@ def merge_command(create, base_dir, domain_methods, languages):
                 'msgmerge',
                 '--update',
                 '--width=200',
+                '--backup=%s' % ('simple' if backup else 'off'),
                 domain_po,
                 '-'
             ]

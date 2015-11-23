@@ -32,11 +32,17 @@ class Command(BaseCommand):
             action='store_true', dest='create', default=False,
             help='Create locale subdirectories'
         ),
+        make_option(
+            '-b', '--backup',
+            action='store_true', dest='backup', default=False,
+            help='Create backup files of .po files'
+        ),
     )
 
     def handle(self, *args, **options):
         return merge_command(
             create=options.get('create'),
+            backup=options.get('backup'),
             base_dir=get_setting('BASE_DIR'),
             domain_methods=get_setting('DOMAIN_METHODS'),
             languages=getattr(settings, 'LANGUAGES', [])

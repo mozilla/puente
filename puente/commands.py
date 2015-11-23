@@ -129,7 +129,7 @@ def extract_command(outputdir, domain_methods, text_domain, keywords,
     print('Done')
 
 
-def merge_command(create, base_dir, domain_methods, languages):
+def merge_command(create, width, base_dir, domain_methods, languages):
     """
     :arg create: whether or not to create directories if they don't
         exist
@@ -191,7 +191,7 @@ def merge_command(create, base_dir, domain_methods, languages):
                     '--locale=%s' % locale,
                     '--input=%s' % domain_pot,
                     '--output-file=%s' % domain_po,
-                    '--width=200'
+                    '--width=%s' % width,
                 ])
                 p1.communicate()
 
@@ -212,7 +212,7 @@ def merge_command(create, base_dir, domain_methods, languages):
             command = [
                 'msgmerge',
                 '--update',
-                '--width=200',
+                '--width=%s' % width,
                 domain_po,
                 '-'
             ]

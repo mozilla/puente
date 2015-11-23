@@ -65,6 +65,7 @@ class TestMergecommand:
 
         merge_command(
             create=True,
+            width=80,
             base_dir=str(tmpdir),
             domain_methods={
                 'django': [
@@ -83,6 +84,7 @@ class TestMergecommand:
         with pytest.raises(CommandError):
             merge_command(
                 create=True,
+                width=80,
                 base_dir=str(tmpdir),
                 domain_methods={
                     'django': [

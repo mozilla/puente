@@ -32,11 +32,19 @@ class Command(BaseCommand):
             action='store_true', dest='create', default=False,
             help='Create locale subdirectories'
         ),
+        make_option(
+            '-w', '--width', type='int', default=200, dest='width',
+            help="Set the output page width. Long strings in the output files "
+                 "will be split across multiple lines in order to ensure that "
+                 "each line's width (= number of screen columns) is less or "
+                 "equal to the given number."
+        ),
     )
 
     def handle(self, *args, **options):
         return merge_command(
             create=options.get('create'),
+            width=options.get('width'),
             base_dir=get_setting('BASE_DIR'),
             domain_methods=get_setting('DOMAIN_METHODS'),
             languages=getattr(settings, 'LANGUAGES', [])

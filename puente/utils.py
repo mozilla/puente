@@ -95,8 +95,20 @@ def generate_keywords(additional_keywords=None):
     # Shallow copy
     keywords = dict(BABEL_KEYWORDS)
 
-    keywords['_lazy'] = None
-    # FIXME: Add other keywords from Django here
+    keywords.update({
+        '_lazy': None,
+        'gettext_lazy': None,
+        'ugettext_lazy': None,
+        'gettext_noop': None,
+        'ugettext_noop': None,
+
+        'ngettext_lazy': (1, 2),
+        'ungettext_lazy': (1, 2),
+
+        'npgettext': ((1, 'c'), 2, 3),
+        'pgettext_lazy': ((1, 'c'), 2),
+        'npgettext_lazy': ((1, 'c'), 2, 3),
+    })
 
     # Add specified keywords
     if additional_keywords:

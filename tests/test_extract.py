@@ -282,3 +282,63 @@ class TestExtractCommand:
 
             """)
         )
+
+    def test_django_pgettext_keywords(self, tmpdir):
+        # Test context
+        tmpdir.join('foo.py').write(dedent("""\
+        pgettext("context1", "string1")
+        pgettext_lazy("context2", "string2")
+        npgettext("context3", "string3", "plural3", 5)
+        npgettext_lazy("context4", "string4", "plural4", 5)
+        """))
+
+        # Extract
+        extract_command(
+            outputdir=str(tmpdir),
+            domain_methods={
+                'django': [
+                    ('*.py', 'python'),
+                ]
+            },
+            text_domain=puente_settings.TEXT_DOMAIN,
+            keywords=puente_settings.KEYWORDS,
+            comment_tags=puente_settings.COMMENT_TAGS,
+            base_dir=str(tmpdir),
+            project=puente_settings.PROJECT,
+            version=puente_settings.VERSION,
+            msgid_bugs_address=puente_settings.MSGID_BUGS_ADDRESS,
+        )
+
+        # Verify contents
+        assert os.path.exists(str(tmpdir.join('django.pot')))
+        pot_file = nix_header(tmpdir.join('django.pot').read())
+        assert (
+            pot_file ==
+            dedent("""\
+            #: foo.py:1
+            msgctxt "context1"
+            msgid "string1"
+            msgstr ""
+
+            #: foo.py:2
+            msgctxt "context2"
+            msgid "string2"
+            msgstr ""
+
+            #: foo.py:3
+            msgctxt "context3"
+            msgid "string3"
+            msgid_plural "plural3"
+            msgstr[0] ""
+            msgstr[1] ""
+
+            #: foo.py:4
+            msgctxt "context4"
+            msgid "string4"
+            msgid_plural "plural4"
+            msgstr[0] ""
+            msgstr[1] ""
+
+            """)
+        )
+

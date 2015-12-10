@@ -10,6 +10,12 @@ History
 FIXME
 
 
+0.4.1 (December 10th, 2015)
+===========================
+
+* Add all the Django keywords for extraction (#53)
+
+
 0.4 (November 20th, 2015)
 =========================
 

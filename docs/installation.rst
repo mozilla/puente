@@ -159,6 +159,33 @@ Note that ``BASE_DIR`` is the path to the project root. It's in the
           }
       }
 
+   .. Note::
+
+      The syntax is an inclusion-style syntax where you specify some group of
+      files to use some extractor.
+
+      In some cases, this is very inconvenient because you might need to say
+      something like "use this extractor with all the files with this glob
+      pattern except this one....".
+
+      To exclude files, you create a rule higher up in the list and use the
+      ``ignore`` extractor.
+
+      For example, to use jinja2 for all files in a directory except
+      ones named ``whaleshark.html``, you'd do something like this:
+
+      .. code-block:: python
+
+         PUENTE = {
+             'DOMAIN_METHODS': {
+                 'django': [
+                     ('fjord/**/jinja2/whaleshark.html', 'ignore'),
+                     ('fjord/**/jinja2/**.html', 'jinja2')
+                 ]
+             }
+         }
+
+      The example is pretty contrived, but hopefully that helps.
 
 .. py:data:: KEYWORDS
 

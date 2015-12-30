@@ -128,7 +128,11 @@ We need to do the following before we can end Puente:
 
    https://github.com/mitsuhiko/jinja2/issues/441
 
-3. Puente's extract command should work more like Babel's pybabel extract
+3. IN PROGRESS: django-babel needs to support "trimmed" in django templates.
+
+   https://github.com/python-babel/django-babel/issues/20
+
+4. Puente's extract command should work more like Babel's pybabel extract
    command.
 
    The way forward is to phase Puente out for pybabel. In order to make that
@@ -136,10 +140,10 @@ We need to do the following before we can end Puente:
 
    This should probably be broken up into more steps as we discover differences.
 
-4. Ditch Puente's merge for pybabel's update?
+5. Ditch Puente's merge for pybabel's update?
 
-5. Need a nice way to use Django settings for pybabel configuration. For
+6. Need a nice way to use Django settings for pybabel configuration. For
    example, I'd rather not have to define the list of Jinja2 extensions to use
    in two places.
 
-6. Is there anything else?
+7. Is there anything else?

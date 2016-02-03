@@ -22,6 +22,7 @@ class Command(BaseCommand):
             )
         ),
     )
+    requires_system_checks = False
 
     def handle(self, *args, **options):
         return extract_command(

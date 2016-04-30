@@ -25,7 +25,7 @@ changed.
 :Issues:        https://github.com/mozilla/puente/issues
 :License:       BSD 3-clause; See LICENSE
 :Contributors:  See AUTHORS.rst
-:Documentation: https://puente.readthedocs.org/en/latest/
+:Documentation: https://puente.readthedocs.io/
 :IRC:           #puente on irc.mozilla.org
 
 
@@ -58,4 +58,4 @@ Run::
 Usage
 =====
 
-See `documentation <https://puente.readthedocs.org/>` for configuration and usage.
+See `documentation <https://puente.readthedocs.io/>` for configuration and usage.

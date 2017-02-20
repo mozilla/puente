@@ -10,18 +10,18 @@ from puente.settings import get_setting
 class Command(BaseCommand):
     help = 'Extracts strings for translation.'
 
-    option_list = BaseCommand.option_list + (
-        make_option(
+    def add_arguments(self, parser):
+        parser.add_argument(
             '--output-dir', '-o',
             default=os.path.join(get_setting('BASE_DIR'), 'locale',
                                  'templates', 'LC_MESSAGES'),
             dest='outputdir',
             help=(
                 'The directory where extracted files will be placed. '
-                '(Default: %default)'
+                '(Default: %%default)'
             )
         ),
-    )
+
     requires_system_checks = False
 
     def handle(self, *args, **options):

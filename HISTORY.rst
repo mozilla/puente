@@ -7,7 +7,8 @@ History
 0.5 (in development)
 ====================
 
-FIXME
+* Drop support for Django 1.7 and Jingo
+* Add support for Python 3.5 and 3.6
 
 
 0.4.1 (December 10th, 2015)

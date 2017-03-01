@@ -1,19 +1,13 @@
 include *.jpg
 include *.rst
 include Makefile
-include pytest-jingo.ini
 include pytest.ini
 include tox.ini
 include requirements-dev.txt
 include LICENSE
-include test_project_jingo/Makefile
 
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs *.jpg
 recursive-include docs Makefile
 recursive-include test_project_django_jinja *.py
-recursive-include test_project_jingo *.py
-recursive-include test_project_jingo *.html
-recursive-include test_project_jingo *.rst
-recursive-include test_project_jingo *.txt

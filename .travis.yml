@@ -7,6 +7,7 @@ install:
 script:
     - tox
 env:
-    - TOXENV=py27_dj17_jingo
     - TOXENV=py27_dj18_django_jinja
     - TOXENV=py34_dj18_django_jinja
+    - TOXENV=py35_dj18_django_jinja
+    - TOXENV=py36_dj18_django_jinja

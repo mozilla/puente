@@ -2,12 +2,10 @@ language: python
 sudo: false
 python:
     - "2.7"
+    - "3.4"
+    - "3.5"
+    - "3.6"
 install:
-    - pip install tox
+    - pip install tox-travis
 script:
     - tox
-env:
-    - TOXENV=py27_dj18_django_jinja
-    - TOXENV=py34_dj18_django_jinja
-    - TOXENV=py35_dj18_django_jinja
-    - TOXENV=py36_dj18_django_jinja

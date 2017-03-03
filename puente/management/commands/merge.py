@@ -26,18 +26,18 @@ class Command(BaseCommand):
     compendium will be used by gettext for fuzzy matching.
 
     """
-    option_list = BaseCommand.option_list + (
-        make_option(
+
+    def add_arguments(self, parser):
+        parser.add_argument(
             '-c', '--create',
             action='store_true', dest='create', default=False,
             help='Create locale subdirectories'
         ),
-        make_option(
+        parser.add_argument(
             '-b', '--backup',
             action='store_true', dest='backup', default=False,
             help='Create backup files of .po files'
         ),
-    )
 
     def handle(self, *args, **options):
         return merge_command(

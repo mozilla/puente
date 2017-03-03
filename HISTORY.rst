@@ -4,11 +4,12 @@
 History
 =======
 
-0.5 (in development)
-====================
+0.5 (March 3rd, 2017)
+=====================
 
 * Drop support for Django 1.7 and Jingo
 * Add support for Python 3.5 and 3.6
+* Add support for Django 1.9, 1.10 and 1.11b1 (#59) (Thank you, Thor K. H!)
 
 
 0.4.1 (December 10th, 2015)

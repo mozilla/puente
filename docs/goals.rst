@@ -120,7 +120,7 @@ anymore.
 
 We need to do the following before we can end Puente:
 
-1. IN PROGRESS: Jinja2 needs to collapse whitespace in the trans tag
+1. DONE!: Jinja2 needs to collapse whitespace in the trans tag
 
    https://github.com/mitsuhiko/jinja2/issues/504
 
@@ -128,7 +128,7 @@ We need to do the following before we can end Puente:
 
    https://github.com/mitsuhiko/jinja2/issues/441
 
-3. IN PROGRESS: django-babel needs to support "trimmed" in django templates.
+3. DONE!: django-babel needs to support "trimmed" in django templates.
 
    https://github.com/python-babel/django-babel/issues/20
 

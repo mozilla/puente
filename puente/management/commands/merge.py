@@ -18,13 +18,6 @@ class Command(BaseCommand):
     guarantees that the newly created PO file has proper gettext
     metadata headers.
 
-    During merging (or initializing), the command will also look in
-    `locale/compendia` for a locale-specific compendium of
-    translations (serving as a translation memory of sorts). The
-    compendium file must be called `${locale}.compendium`,
-    e.g. `es_ES.compendium` for Spanish.  The translations in the
-    compendium will be used by gettext for fuzzy matching.
-
     """
 
     def add_arguments(self, parser):

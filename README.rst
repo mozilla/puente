@@ -21,6 +21,15 @@ using Jinja2 templates.
 This is derived from `Tower <https://github.com/clouserw/tower>`_, but heavily
 changed.
 
+This project is lightly maintained, and the goal is to phase it out, replacing
+it with
+`standard Django <https://docs.djangoproject.com/en/2.2/topics/i18n/translation/>`_
+for most cases, and 
+`Babel <http://babel.pocoo.org/en/latest/>`_ for more complex cases. For more
+information, see the issues and the
+`current status of phasing Puente out <https://puente.readthedocs.io/en/latest/goals.html#current-status-of-phasing-puente-out>`_.
+
+
 :Code:          https://github.com/mozilla/puente/
 :Issues:        https://github.com/mozilla/puente/issues
 :License:       BSD 3-clause; See LICENSE

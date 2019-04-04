@@ -197,30 +197,37 @@ def merge_command(create, backup, base_dir, domain_methods, languages):
                 p1.communicate()
 
             print('Merging %s.po for %s' % (domain, locale))
+            with open(domain_pot) as domain_pot_file:
+                if locale == 'en_US':
+                    # Create an English translation catalog, then merge
+                    with TemporaryFile('w+t') as enmerged:
+                        p2 = Popen(['msgen', '-'], stdin=domain_pot_file,
+                                   stdout=enmerged)
+                        p2.communicate()
+                        _msgmerge(domain_po, enmerged, backup)
+                else:
+                    _msgmerge(domain_po, domain_pot_file, backup)
 
-            domain_pot_file = open(domain_pot)
-
-            if locale == 'en_US':
-                enmerged = TemporaryFile('w+t')
-                p2 = Popen(['msgen', '-'], stdin=domain_pot_file,
-                           stdout=enmerged)
-                p2.communicate()
-                mergeme = enmerged
-            else:
-                mergeme = domain_pot_file
-
-            mergeme.seek(0)
-            command = [
-                'msgmerge',
-                '--update',
-                '--width=200',
-                '--backup=%s' % ('simple' if backup else 'off'),
-                domain_po,
-                '-'
-            ]
-            p3 = Popen(command, stdin=mergeme)
-            p3.communicate()
-            mergeme.close()
         print('Domain %s finished' % domain)
 
     print('All finished')
+
+
+def _msgmerge(po_path, pot_file, backup):
+    """Merge an existing .po file with new translations.
+
+    :arg po_path: path to the .po file
+    :arg pot_file: a file-like object for the related templates
+    :arg backup: whether or not to create backup .po files
+    """
+    pot_file.seek(0)
+    command = [
+        'msgmerge',
+        '--update',
+        '--width=200',
+        '--backup=%s' % ('simple' if backup else 'off'),
+        po_path,
+        '-'
+    ]
+    p3 = Popen(command, stdin=pot_file)
+    p3.communicate()

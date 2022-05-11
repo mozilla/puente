@@ -2,6 +2,8 @@
 puente
 ======
 
+**Note (2022-05-11): This project is no longer maintained.**
+
 .. image:: puente_logo.jpg
 
 Puente is a Python library that handles l10n things for Django projects
@@ -31,11 +33,10 @@ information, see the issues and the
 
 
 :Code:          https://github.com/mozilla/puente/
-:Issues:        https://github.com/mozilla/puente/issues
+:Issues:        No longer maintained.
 :License:       BSD 3-clause; See LICENSE
 :Contributors:  See AUTHORS.rst
 :Documentation: https://puente.readthedocs.io/
-:IRC:           #puente on irc.mozilla.org
 
 
 Install

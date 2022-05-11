@@ -11,7 +11,7 @@ from puente import settings as puente_settings
 class TestManageExtract(TestCase):
     def test_help(self):
         try:
-            management.call_command('extract', '--help')
+            management.call_command("extract", "--help")
         except SystemExit:
             # Calling --help causes it to call sys.exit(0) which
             # will otherwise exit.
@@ -20,16 +20,22 @@ class TestManageExtract(TestCase):
 
 def nix_header(pot_file):
     """Nix the POT file header since it changes and we don't care"""
-    return pot_file[pot_file.find('\n\n')+2:]
+    return pot_file[pot_file.find("\n\n") + 2 :]
 
 
 class TestExtractCommand:
     def test_basic_extraction(self, tmpdir):
         # Create files to extract from
-        tmpdir.join('foo.py').write(dedent("""\
+        tmpdir.join("foo.py").write(
+            dedent(
+                """\
         _('python string')
-        """))
-        tmpdir.join('foo.html').write(dedent("""\
+        """
+            )
+        )
+        tmpdir.join("foo.html").write(
+            dedent(
+                """\
         <html>
         {{ _('html string') }}
         {% trans %}
@@ -37,15 +43,17 @@ class TestExtractCommand:
             block
         {% endtrans %}
         </html>
-        """))
+        """
+            )
+        )
 
         # Extract
         extract_command(
             outputdir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
-                    ('*.html', 'jinja2'),
+                "django": [
+                    ("*.py", "python"),
+                    ("*.html", "jinja2"),
                 ]
             },
             text_domain=puente_settings.TEXT_DOMAIN,
@@ -58,11 +66,10 @@ class TestExtractCommand:
         )
 
         # Verify contents
-        assert os.path.exists(str(tmpdir.join('django.pot')))
-        pot_file = nix_header(tmpdir.join('django.pot').read())
-        assert (
-            pot_file ==
-            dedent("""\
+        assert os.path.exists(str(tmpdir.join("django.pot")))
+        pot_file = nix_header(tmpdir.join("django.pot").read())
+        assert pot_file == dedent(
+            """\
             #: foo.html:2
             msgid "html string"
             msgstr ""
@@ -75,7 +82,7 @@ class TestExtractCommand:
             msgid "python string"
             msgstr ""
 
-            """)
+            """
         )
 
     def test_header(self, tmpdir):
@@ -83,23 +90,23 @@ class TestExtractCommand:
         extract_command(
             outputdir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
-                    ('*.html', 'jinja2'),
+                "django": [
+                    ("*.py", "python"),
+                    ("*.html", "jinja2"),
                 ]
             },
             text_domain=puente_settings.TEXT_DOMAIN,
             keywords=puente_settings.KEYWORDS,
             comment_tags=puente_settings.COMMENT_TAGS,
             base_dir=str(tmpdir),
-            project='Fjord',
-            version='2000',
-            msgid_bugs_address='https://bugzilla.mozilla.org/'
+            project="Fjord",
+            version="2000",
+            msgid_bugs_address="https://bugzilla.mozilla.org/",
         )
 
         # Verify contents
-        assert os.path.exists(str(tmpdir.join('django.pot')))
-        pot_file = tmpdir.join('django.pot').read().splitlines()
+        assert os.path.exists(str(tmpdir.join("django.pot")))
+        pot_file = tmpdir.join("django.pot").read().splitlines()
 
         def get_value(key, pot_file):
             """Returns the value for a given key in a potfile header
@@ -113,37 +120,49 @@ class TestExtractCommand:
             """
 
             line = [line for line in pot_file if line.startswith('"' + key)][0]
-            return line.split(' ', 1)[1][:-3]  # slash, n, double-quote
+            return line.split(" ", 1)[1][:-3]  # slash, n, double-quote
 
-        assert get_value('Project-Id-Version', pot_file) == 'Fjord 2000'
+        assert get_value("Project-Id-Version", pot_file) == "Fjord 2000"
         assert (
-            get_value('Report-Msgid-Bugs-To', pot_file) ==
-            'https://bugzilla.mozilla.org/'
+            get_value("Report-Msgid-Bugs-To", pot_file)
+            == "https://bugzilla.mozilla.org/"
         )
 
     def test_whitespace_collapsing(self, tmpdir):
         # We collapse whitespace in Jinja2 trans tags and that's it.
-        tmpdir.join('foo.py').write(dedent("""\
+        tmpdir.join("foo.py").write(
+            dedent(
+                """\
         _("  gettext1  test  ")
-        """))
-        tmpdir.join('foo.html').write(dedent("""\
+        """
+            )
+        )
+        tmpdir.join("foo.html").write(
+            dedent(
+                """\
         {{ _("  gettext2  test  ") }}
-        """))
-        tmpdir.join('foo2.html').write(dedent("""\
+        """
+            )
+        )
+        tmpdir.join("foo2.html").write(
+            dedent(
+                """\
         {% trans %}
             trans
             tag
             test
         {% endtrans %}
-        """))
+        """
+            )
+        )
 
         # Extract
         extract_command(
             outputdir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
-                    ('*.html', 'jinja2'),
+                "django": [
+                    ("*.py", "python"),
+                    ("*.html", "jinja2"),
                 ]
             },
             text_domain=puente_settings.TEXT_DOMAIN,
@@ -156,11 +175,10 @@ class TestExtractCommand:
         )
 
         # Verify contents
-        assert os.path.exists(str(tmpdir.join('django.pot')))
-        pot_file = nix_header(tmpdir.join('django.pot').read())
-        assert (
-            pot_file ==
-            dedent("""\
+        assert os.path.exists(str(tmpdir.join("django.pot")))
+        pot_file = nix_header(tmpdir.join("django.pot").read())
+        assert pot_file == dedent(
+            """\
             #: foo.html:1
             msgid "  gettext2  test  "
             msgstr ""
@@ -173,25 +191,33 @@ class TestExtractCommand:
             msgid "trans tag test"
             msgstr ""
 
-            """)
+            """
         )
 
     def test_context(self, tmpdir):
         # Test context
-        tmpdir.join('foo.py').write(dedent("""\
+        tmpdir.join("foo.py").write(
+            dedent(
+                """\
         pgettext("context", "string")
-        """))
-        tmpdir.join('foo.html').write(dedent("""\
+        """
+            )
+        )
+        tmpdir.join("foo.html").write(
+            dedent(
+                """\
         {{ _("  gettext2  test  ", "context") }}
-        """))
+        """
+            )
+        )
 
         # Extract
         extract_command(
             outputdir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
-                    ('*.html', 'jinja2'),
+                "django": [
+                    ("*.py", "python"),
+                    ("*.html", "jinja2"),
                 ]
             },
             text_domain=puente_settings.TEXT_DOMAIN,
@@ -204,11 +230,10 @@ class TestExtractCommand:
         )
 
         # Verify contents
-        assert os.path.exists(str(tmpdir.join('django.pot')))
-        pot_file = nix_header(tmpdir.join('django.pot').read())
-        assert (
-            pot_file ==
-            dedent("""\
+        assert os.path.exists(str(tmpdir.join("django.pot")))
+        pot_file = nix_header(tmpdir.join("django.pot").read())
+        assert pot_file == dedent(
+            """\
             #: foo.html:1
             msgid "  gettext2  test  "
             msgstr ""
@@ -218,30 +243,38 @@ class TestExtractCommand:
             msgid "string"
             msgstr ""
 
-            """)
+            """
         )
 
     def test_plurals(self, tmpdir):
         # Test ngettext
-        tmpdir.join('foo.py').write(dedent("""\
+        tmpdir.join("foo.py").write(
+            dedent(
+                """\
         ngettext('%(num)s thing', '%(num)s things', num)
-        """))
-        tmpdir.join('foo.html').write(dedent("""\
+        """
+            )
+        )
+        tmpdir.join("foo.html").write(
+            dedent(
+                """\
         {{ ngettext('html %(num)s thing', 'html %(num)s things', num) }}
         {% trans num=num %}
             There is {{ num }} thing.
         {% pluralize %}
             There are {{ num }} things.
         {% endtrans %}
-        """))
+        """
+            )
+        )
 
         # Extract
         extract_command(
             outputdir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
-                    ('*.html', 'jinja2'),
+                "django": [
+                    ("*.py", "python"),
+                    ("*.html", "jinja2"),
                 ]
             },
             text_domain=puente_settings.TEXT_DOMAIN,
@@ -254,11 +287,10 @@ class TestExtractCommand:
         )
 
         # Verify contents
-        assert os.path.exists(str(tmpdir.join('django.pot')))
-        pot_file = nix_header(tmpdir.join('django.pot').read())
-        assert (
-            pot_file ==
-            dedent("""\
+        assert os.path.exists(str(tmpdir.join("django.pot")))
+        pot_file = nix_header(tmpdir.join("django.pot").read())
+        assert pot_file == dedent(
+            """\
             #: foo.html:1
             #, python-format
             msgid "html %(num)s thing"
@@ -280,24 +312,28 @@ class TestExtractCommand:
             msgstr[0] ""
             msgstr[1] ""
 
-            """)
+            """
         )
 
     def test_django_pgettext_keywords(self, tmpdir):
         # Test context
-        tmpdir.join('foo.py').write(dedent("""\
+        tmpdir.join("foo.py").write(
+            dedent(
+                """\
         pgettext("context1", "string1")
         pgettext_lazy("context2", "string2")
         npgettext("context3", "string3", "plural3", 5)
         npgettext_lazy("context4", "string4", "plural4", 5)
-        """))
+        """
+            )
+        )
 
         # Extract
         extract_command(
             outputdir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
+                "django": [
+                    ("*.py", "python"),
                 ]
             },
             text_domain=puente_settings.TEXT_DOMAIN,
@@ -310,11 +346,10 @@ class TestExtractCommand:
         )
 
         # Verify contents
-        assert os.path.exists(str(tmpdir.join('django.pot')))
-        pot_file = nix_header(tmpdir.join('django.pot').read())
-        assert (
-            pot_file ==
-            dedent("""\
+        assert os.path.exists(str(tmpdir.join("django.pot")))
+        pot_file = nix_header(tmpdir.join("django.pot").read())
+        assert pot_file == dedent(
+            """\
             #: foo.py:1
             msgctxt "context1"
             msgid "string1"
@@ -339,6 +374,5 @@ class TestExtractCommand:
             msgstr[0] ""
             msgstr[1] ""
 
-            """)
+            """
         )
-

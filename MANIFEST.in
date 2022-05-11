@@ -5,6 +5,7 @@ include pytest.ini
 include tox.ini
 include requirements-dev.txt
 include LICENSE
+include CODE_OF_CONDUCT.md
 
 recursive-include docs *.py
 recursive-include docs *.rst

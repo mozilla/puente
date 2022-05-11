@@ -4,6 +4,23 @@
 History
 =======
 
+1.0.0 (May 11th, 2022)
+======================
+
+Backwards incompatible changes:
+
+* Dropped support for Python < 3.7.
+* Dropped support for Django < 3.2.
+* Ended the project. Please switch to something else.
+
+Changes:
+
+* Added support for Django 3.2.
+* Added support for Python 3.7, 3.8, 3.9, and 3.10.
+* Fixed issues with recent Jinja2 releases.
+* Switched to semver!
+
+
 0.5 (March 3rd, 2017)
 =====================
 

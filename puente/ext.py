@@ -1,12 +1,16 @@
-from django.utils.translation import pgettext as pgettext_real, npgettext as npgettext_real
+from django.utils.translation import (
+    pgettext as pgettext_real,
+    npgettext as npgettext_real,
+)
 
 from jinja2.ext import InternationalizationExtension
-from jinja2.utils import contextfunction, Markup
+from jinja2.utils import pass_context
+from markupsafe import Markup
 
 from puente.utils import collapse_whitespace
 
 
-@contextfunction
+@pass_context
 def pgettext(__context, context, message, **variables):
     rv = pgettext_real(context, message)
     if __context.eval_ctx.autoescape:
@@ -14,9 +18,9 @@ def pgettext(__context, context, message, **variables):
     return rv % variables
 
 
-@contextfunction
+@pass_context
 def npgettext(__context, context, singular, plural, number, **variables):
-    variables.setdefault('num', number)
+    variables.setdefault("num", number)
     rv = npgettext_real(context, singular, plural, number)
     if __context.eval_ctx.autoescape:
         rv = Markup(rv)
@@ -32,10 +36,11 @@ class PuenteI18nExtension(InternationalizationExtension):
     Jinja2 templates.
 
     """
+
     def __init__(self, environment):
         super(PuenteI18nExtension, self).__init__(environment)
-        environment.globals['pgettext'] = pgettext
-        environment.globals['npgettext'] = npgettext
+        environment.globals["pgettext"] = pgettext
+        environment.globals["npgettext"] = npgettext
 
     def _parse_block(self, parser, allow_pluralize):
         parse_block = InternationalizationExtension._parse_block

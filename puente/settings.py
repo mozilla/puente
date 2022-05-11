@@ -2,13 +2,13 @@ from puente.utils import generate_keywords
 
 
 # Name for .pot file--should be 'django'
-TEXT_DOMAIN = 'django'
+TEXT_DOMAIN = "django"
 
 # Keywords indicating gettext calls
 KEYWORDS = generate_keywords()
 
 # Prefixes that indicate a comment tag intended for localizers
-COMMENT_TAGS = ['L10n:', 'L10N:', 'l10n:', 'l10N:', 'Translators:']
+COMMENT_TAGS = ["L10n:", "L10N:", "l10n:", "l10N:", "Translators:"]
 
 # Tells the extract script what files to look for L10n in and what
 # function handles the extraction.
@@ -23,15 +23,16 @@ BASE_DIR = None
 JINJA2_CONFIG = None
 
 # The name of the project.
-PROJECT = 'PROJECT'
+PROJECT = "PROJECT"
 
 # The version of the project.
-VERSION = '1.0'
+VERSION = "1.0"
 
 # Email address or url for reporting msgid-related bugs to.
-MSGID_BUGS_ADDRESS = ''
+MSGID_BUGS_ADDRESS = ""
 
 
 def get_setting(key):
     from django.conf import settings
+
     return settings.PUENTE.get(key, globals()[key])

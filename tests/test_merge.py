@@ -13,7 +13,7 @@ from puente.commands import merge_command
 class TestManageMerge(TestCase):
     def test_help(self):
         try:
-            management.call_command('merge', '--help')
+            management.call_command("merge", "--help")
         except SystemExit:
             # Calling --help causes it to call sys.exit(0) which
             # will otherwise exit.
@@ -26,15 +26,18 @@ def build_filesystem(basedir, files):
         dirname = os.path.dirname(path)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        with open(path, 'w') as fp:
+        with open(path, "w") as fp:
             fp.write(contents)
 
 
 class TestMergecommand:
     def test_basic(self, tmpdir):
-        locale_dir = tmpdir.join('locale')
-        build_filesystem(str(locale_dir), {
-            'templates/LC_MESSAGES/django.pot': dedent("""\
+        locale_dir = tmpdir.join("locale")
+        build_filesystem(
+            str(locale_dir),
+            {
+                "templates/LC_MESSAGES/django.pot": dedent(
+                    """\
             #, fuzzy
             msgid ""
             msgstr ""
@@ -60,25 +63,27 @@ class TestMergecommand:
             #: foo.py:1
             msgid "python string"
             msgstr ""
-            """),
-        })
+            """
+                ),
+            },
+        )
 
         merge_command(
             create=True,
             backup=True,
             base_dir=str(tmpdir),
             domain_methods={
-                'django': [
-                    ('*.py', 'python'),
-                    ('*.html', 'jinja2'),
+                "django": [
+                    ("*.py", "python"),
+                    ("*.html", "jinja2"),
                 ]
             },
-            languages=['de', 'en-US', 'fr']
+            languages=["de", "en-US", "fr"],
         )
 
-        assert locale_dir.join('de', 'LC_MESSAGES', 'django.po').exists()
-        assert locale_dir.join('en_US', 'LC_MESSAGES', 'django.po').exists()
-        assert locale_dir.join('fr', 'LC_MESSAGES', 'django.po').exists()
+        assert locale_dir.join("de", "LC_MESSAGES", "django.po").exists()
+        assert locale_dir.join("en_US", "LC_MESSAGES", "django.po").exists()
+        assert locale_dir.join("fr", "LC_MESSAGES", "django.po").exists()
 
     def test_missing_pot_file(self, tmpdir):
         with pytest.raises(CommandError):
@@ -87,10 +92,10 @@ class TestMergecommand:
                 backup=True,
                 base_dir=str(tmpdir),
                 domain_methods={
-                    'django': [
-                        ('*.py', 'python'),
-                        ('*.html', 'jinja2'),
+                    "django": [
+                        ("*.py", "python"),
+                        ("*.html", "jinja2"),
                     ]
                 },
-                languages=['de', 'en-US', 'fr']
+                languages=["de", "en-US", "fr"],
             )

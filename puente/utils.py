@@ -95,20 +95,20 @@ def generate_keywords(additional_keywords=None):
     # Shallow copy
     keywords = dict(BABEL_KEYWORDS)
 
-    keywords.update({
-        '_lazy': None,
-        'gettext_lazy': None,
-        'ugettext_lazy': None,
-        'gettext_noop': None,
-        'ugettext_noop': None,
-
-        'ngettext_lazy': (1, 2),
-        'ungettext_lazy': (1, 2),
-
-        'npgettext': ((1, 'c'), 2, 3),
-        'pgettext_lazy': ((1, 'c'), 2),
-        'npgettext_lazy': ((1, 'c'), 2, 3),
-    })
+    keywords.update(
+        {
+            "_lazy": None,
+            "gettext_lazy": None,
+            "ugettext_lazy": None,
+            "gettext_noop": None,
+            "ugettext_noop": None,
+            "ngettext_lazy": (1, 2),
+            "ungettext_lazy": (1, 2),
+            "npgettext": ((1, "c"), 2, 3),
+            "pgettext_lazy": ((1, "c"), 2),
+            "npgettext_lazy": ((1, "c"), 2, 3),
+        }
+    )
 
     # Add specified keywords
     if additional_keywords:
@@ -119,5 +119,6 @@ def generate_keywords(additional_keywords=None):
 
 def collapse_whitespace(message):
     """Collapses consecutive whitespace into a single space"""
-    return u' '.join(map(lambda s: s.strip(),
-                         filter(None, message.strip().splitlines())))
+    return " ".join(
+        map(lambda s: s.strip(), filter(None, message.strip().splitlines()))
+    )

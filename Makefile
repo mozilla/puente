@@ -24,6 +24,7 @@ clean-docs:
 	rm -rf docs/_build/
 
 lint:
+	black --target-version=py37 --line-length=88 setup.py puente tests
 	flake8 puente tests
 
 test:

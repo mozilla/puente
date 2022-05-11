@@ -1,5 +1,5 @@
 # These are test/development requirements.
-.
+-e .
 
 # just to make development easier and test using test_project/
 django-jinja
